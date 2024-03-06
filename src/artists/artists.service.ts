@@ -27,7 +27,7 @@ export class ArtistsService {
     return undefined;
   };
 
-  update(id: string, updateArtistDto: UpdateArtistDto) {
+  async update(id: string, updateArtistDto: UpdateArtistDto) {
     this.databaseService.changeArtistById(id, updateArtistDto);
   }
 

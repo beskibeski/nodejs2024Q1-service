@@ -1,29 +1,39 @@
+import { randomUUID } from 'crypto';
 import { Injectable } from '@nestjs/common';
 import { CreateAlbumDto } from './dto/create-album.dto';
 import { UpdateAlbumDto } from './dto/update-album.dto';
 import { DataBaseService } from 'src/database/database.service';
+import { IAlbum } from './entities/album.entity';
 
 @Injectable()
 export class AlbumsService {
   constructor(private databaseService: DataBaseService) {}
 
-  create(createAlbumDto: CreateAlbumDto) {
-    return 'This action adds a new album';
+  async create(createAlbumDto: CreateAlbumDto) {
+    const album: IAlbum = {
+      id: randomUUID(),
+      artistId: null,
+      ...createAlbumDto,      
+    };
+    return this.databaseService.setAlbum(album);
   }
 
-  findAll() {
+  async findAll() {
     return this.databaseService.getAlbums();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} album`;
+  async findOne(id: string) {
+    if (await this.databaseService.getAlbumById(id)) {
+      return this.databaseService.getAlbumById(id);
+    }
+    return undefined;  
   }
 
-  update(id: number, updateAlbumDto: UpdateAlbumDto) {
-    return `This action updates a #${id} album`;
+  async update(id: string, updateAlbumDto: UpdateAlbumDto) {
+    this.databaseService.changeAlbumById(id, updateAlbumDto);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} album`;
+  async remove(id: string) {
+    this.databaseService.deleteAlbumById(id);
   }
 }

@@ -1,29 +1,40 @@
+import { randomUUID } from 'crypto';
 import { Injectable } from '@nestjs/common';
 import { CreateTrackDto } from './dto/create-track.dto';
 import { UpdateTrackDto } from './dto/update-track.dto';
 import { DataBaseService } from 'src/database/database.service';
+import { ITrack } from './entities/track.entity';
 
 @Injectable()
 export class TracksService {
   constructor(private databaseService: DataBaseService) {}
 
-  create(createTrackDto: CreateTrackDto) {
-    return 'This action adds a new track';
+  async create(createTrackDto: CreateTrackDto) {
+    const track: ITrack = {
+      id: randomUUID(),
+      albumId: null,
+      artistId: null,
+      ...createTrackDto,
+    };
+    return this.databaseService.setTrack(track);
   }
 
-  findAll() {
+  async findAll() {
     return this.databaseService.getTracks();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} track`;
+  async findOne(id: string) {
+    if (await this.databaseService.getTrackById(id)) {
+      return this.databaseService.getTrackById(id);
+    }
+    return undefined;
+  };  
+
+  async update(id: string, updateTrackDto: UpdateTrackDto) {
+    this.databaseService.changeTrackById(id, updateTrackDto);
   }
 
-  update(id: number, updateTrackDto: UpdateTrackDto) {
-    return `This action updates a #${id} track`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} track`;
+  async remove(id: string) {
+    this.databaseService.deleteTrackById(id);
   }
 }
