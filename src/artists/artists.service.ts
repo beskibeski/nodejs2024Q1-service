@@ -1,3 +1,4 @@
+import { randomUUID } from 'crypto';
 import { Injectable } from '@nestjs/common';
 import { CreateArtistDto } from './dto/create-artist.dto';
 import { UpdateArtistDto } from './dto/update-artist.dto';
@@ -7,23 +8,30 @@ import { DataBaseService } from 'src/database/database.service';
 export class ArtistsService {
   constructor(private databaseService: DataBaseService) {}
 
-  create(createArtistDto: CreateArtistDto) {
-    return 'This action adds a new artist';
+  public async create(createArtistDto: CreateArtistDto) {
+    const artist = {
+      id: randomUUID(),
+      ...createArtistDto,
+    };
+    return this.databaseService.setArtist(artist);
   }
 
-  findAll() {
+  public async findAll() {
     return this.databaseService.getArtists();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} artist`;
+  public async findOne(id: string) {    
+    if (await this.databaseService.getArtistById(id)) {
+      return this.databaseService.getArtistById(id);
+    }
+    return undefined;
+  };
+
+  update(id: string, updateArtistDto: UpdateArtistDto) {
+    this.databaseService.changeArtistById(id, updateArtistDto);
   }
 
-  update(id: number, updateArtistDto: UpdateArtistDto) {
-    return `This action updates a #${id} artist`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} artist`;
+  public async remove(id: string) {
+    this.databaseService.deleteArtistById(id);
   }
 }

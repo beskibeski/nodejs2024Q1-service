@@ -1,57 +1,52 @@
 import { Injectable } from '@nestjs/common';
 import { IDatabase } from './entities/database.entity';
+import { Artist } from 'src/artists/entities/artist.entity';
 
 @Injectable()
 export class DataBaseService {
   private database: IDatabase = {
-    users: [
-      {
-        id: '82578528-8d66-439b-b79c-2b95bf43bec6',
-        login: '11111',
-        password: '111111',
-        version: 0,
-        createdAt: 111111,
-        updatedAt: 111111,
-      }
-    ],
-    artists: [
-      {
-        id: '82578529-8d66-439b-b79c-2b95bf43bec6',
-        name: 'Vasyok',
-        grammy: true,
-      }
-    ],
-    tracks: [
-      {
-        id: '83578529-8d66-439b-b79c-2b95bf43bec6',
-        name: 'Grib',
-        artistId: '82578528-8d66-439b-b79c-2b95bf43bec6',
-        albumId: '92578529-8d66-439b-b79c-2b95bf43bec6',
-        duration: 45,
-      },
-    ],
-    albums: [      
-    ],
+    users: [],
+    artists: [],
+    tracks: [],
+    albums: [],
     favorites: [],
   };
 
-  public getUsers() {
+  public async getUsers() {
     return this.database.users;
   };
 
-  public getArtists() {
+  public async setArtist(artist: Artist) {
+    this.database.artists.push(artist);
+  }
+
+  public async getArtists() {
     return this.database.artists;
   };
+  
+  public async getArtistById(id: string) {
+    return this.database.artists.find((artist) => artist.id === id);
+  };
 
-  public getTracks() {
+  public async changeArtistById(id: string, artistData: Partial<Artist>) {
+    this.database.artists = this.database.artists.map((artist: Artist) => 
+      artist.id === id ? { id, name: artistData.name, grammy: artistData.grammy } : artist
+    )
+  };
+
+  public async deleteArtistById(id: string) {
+    this.database.artists = this.database.artists.filter((artist) => artist.id !== id);
+  };
+
+  public async getTracks() {
     return this.database.tracks;
   };
 
-  public getAlbums() {
+  public async getAlbums() {
     return this.database.albums;
   };
 
-  public getFavorites() {
+  public async getFavorites() {
     return this.database.albums;
   };
 };

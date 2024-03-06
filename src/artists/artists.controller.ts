@@ -1,14 +1,14 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Put, Param, Delete, ParseUUIDPipe, NotFoundException, HttpCode } from '@nestjs/common';
 import { ArtistsService } from './artists.service';
 import { CreateArtistDto } from './dto/create-artist.dto';
 import { UpdateArtistDto } from './dto/update-artist.dto';
 
-@Controller('artists')
+@Controller('artist')
 export class ArtistsController {
   constructor(private readonly artistsService: ArtistsService) {}
 
   @Post()
-  create(@Body() createArtistDto: CreateArtistDto) {
+  async create(@Body() createArtistDto: CreateArtistDto) {
     return this.artistsService.create(createArtistDto);
   }
 
@@ -18,17 +18,29 @@ export class ArtistsController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.artistsService.findOne(+id);
+  async findOne(@Param('id', new ParseUUIDPipe) id: string) {
+    if (await this.artistsService.findOne(id)) {
+      return this.artistsService.findOne(id);
+    } ;
+    throw new NotFoundException(`There is no artist with id: ${id}`);    
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateArtistDto: UpdateArtistDto) {
-    return this.artistsService.update(+id, updateArtistDto);
+  @Put(':id')
+  async update(@Param('id', ParseUUIDPipe) id: string, @Body() updateArtistDto: UpdateArtistDto) {
+    if (await this.artistsService.findOne(id)) {
+      this.artistsService.update(id, updateArtistDto);
+    } else {
+      throw new NotFoundException(`There is no artist with id: ${id}`);
+    }      
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.artistsService.remove(+id);
+  @HttpCode(204)
+  async remove(@Param('id', ParseUUIDPipe) id: string) {
+    if (await this.artistsService.findOne(id)) {
+      this.artistsService.remove(id);
+    } else {
+      throw new NotFoundException(`There is no artist with id: ${id}`);
+    }
   }
 }
