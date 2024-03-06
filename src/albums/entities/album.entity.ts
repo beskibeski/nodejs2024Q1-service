@@ -1,4 +1,9 @@
-export class Album {}
+export class Album implements IAlbum{
+  id: string;
+  name: string;
+  year: number;
+  artistId: string;
+}
 
 export interface IAlbum {
   id: string; // uuid v4

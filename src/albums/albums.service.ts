@@ -1,15 +1,18 @@
 import { Injectable } from '@nestjs/common';
 import { CreateAlbumDto } from './dto/create-album.dto';
 import { UpdateAlbumDto } from './dto/update-album.dto';
+import { DataBaseService } from 'src/database/database.service';
 
 @Injectable()
 export class AlbumsService {
+  constructor(private databaseService: DataBaseService) {}
+
   create(createAlbumDto: CreateAlbumDto) {
     return 'This action adds a new album';
   }
 
   findAll() {
-    return `This action returns all albums`;
+    return this.databaseService.getAlbums();
   }
 
   findOne(id: number) {

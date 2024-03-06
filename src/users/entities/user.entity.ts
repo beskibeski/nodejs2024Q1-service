@@ -1,4 +1,5 @@
-export class User {}
+export class User {  
+};
 
 export interface IUser {
   id: string; // uuid v4
@@ -6,5 +7,5 @@ export interface IUser {
   password: string;
   version: number; // integer number, increments on update
   createdAt: number; // timestamp of creation
-  updatedAt: number; // timestamp of last update
-}
+  updatedAt: number; // timestamp of last update  
+};
