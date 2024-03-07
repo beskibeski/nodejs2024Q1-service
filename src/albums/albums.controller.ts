@@ -9,40 +9,40 @@ export class AlbumsController {
   constructor(private readonly albumsService: AlbumsService) {}
 
   @Post()
-  async create(@Body(new ValidationPipe()) createAlbumDto: CreateAlbumDto) {
-    return this.albumsService.create(createAlbumDto);
-  }
+  public async create(@Body(new ValidationPipe()) createAlbumDto: CreateAlbumDto) {
+    return await this.albumsService.create(createAlbumDto);
+  };
 
   @Get()
-  async findAll() {
-    return this.albumsService.getAll();
+  public async findAll() {
+    return await this.albumsService.getAll();
   }
 
   @Get(':id')
-  async findOne(@Param('id', new ParseUUIDPipe()) id: string) {
-    if (await this.albumsService.findOne(id)) {
-      return await this.albumsService.findOne(id);
-    }
-    throw new NotFoundException(`There is no album with id: ${id}`);
-    
+  public async findOne(@Param('id', new ParseUUIDPipe()) id: string) {
+    const foundAlbum = await this.albumsService.findOne(id);
+    if (foundAlbum) {
+      return foundAlbum;
+    };
+    throw new NotFoundException(`There is no album with id: ${id}`);    
   }
 
   @Put(':id')
-  async update(@Param('id', new ParseUUIDPipe()) id: string, @Body(new ValidationPipe()) updateAlbumDto: UpdateAlbumDto) {
+  public async update(@Param('id', new ParseUUIDPipe()) id: string, @Body(new ValidationPipe()) updateAlbumDto: UpdateAlbumDto) {
     const updatedAlbum = await this.albumsService.update(id, updateAlbumDto);
     if (updatedAlbum) {
       return updatedAlbum;
-    }  
+    };
     throw new NotFoundException(`There is no album with id: ${id}`);          
   }
 
   @Delete(':id')
   @HttpCode(204)
-  async remove(@Param('id', new ParseUUIDPipe()) id: string) {
+  public async remove(@Param('id', new ParseUUIDPipe()) id: string) {
     const deletedAlbum = await this.albumsService.remove(id);
     if (deletedAlbum) {
       return deletedAlbum;
     };
     throw new NotFoundException(`There is no album with id: ${id}`);    
-  }
+  };
 }

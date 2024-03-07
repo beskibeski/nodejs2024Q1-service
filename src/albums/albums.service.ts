@@ -9,28 +9,28 @@ import { IAlbum } from './entities/album.entity';
 export class AlbumsService {
   constructor(private databaseService: DataBaseService) {}
 
-  async create(createAlbumDto: CreateAlbumDto) {
+  public async create(createAlbumDto: CreateAlbumDto) {
     const album: IAlbum = {
       id: randomUUID(),
       artistId: null,
       ...createAlbumDto,      
     };
     return await this.databaseService.setAlbum(album);
-  }
+  };
 
-  async getAll() {
+  public async getAll() {
     return await this.databaseService.getAlbums();
-  }
+  };
 
-  async findOne(id: string) {    
+  public async findOne(id: string) {    
     return await this.databaseService.getAlbumById(id);
-  }
+  };
 
-  async update(id: string, updateAlbumDto: UpdateAlbumDto) {
+  public async update(id: string, updateAlbumDto: UpdateAlbumDto) {
     return await this.databaseService.changeAlbumById(id, updateAlbumDto);
-  }
+  };
 
-  async remove(id: string) {
+  public async remove(id: string) {
     return await this.databaseService.deleteAlbumById(id);
-  }
+  };
 }

@@ -8,39 +8,40 @@ export class ArtistsController {
   constructor(private readonly artistsService: ArtistsService) {}
 
   @Post()
-  async create(@Body(new ValidationPipe()) createArtistDto: CreateArtistDto) {
-    return this.artistsService.create(createArtistDto);
-  }
+  public async create(@Body(new ValidationPipe()) createArtistDto: CreateArtistDto) {
+    return await this.artistsService.create(createArtistDto);
+  };
 
   @Get()
-  findAll() {
-    return this.artistsService.findAll();
-  }
+  public async findAll() {
+    return await this.artistsService.findAll();
+  };
 
   @Get(':id')
-  async findOne(@Param('id', ParseUUIDPipe) id: string) {    
-    if (await this.artistsService.getArtistById(id)) {
-      return;
-    } 
-    throw new NotFoundException(`Artist with id ${id} not found`);
-  }
+  public async findOne(@Param('id', ParseUUIDPipe) id: string) {
+    const foundArtist = await this.artistsService.getArtistById(id)
+    if (foundArtist) {
+      return foundArtist;
+    }; 
+    throw new NotFoundException(`There is no artist with id: ${id}`);
+  };
 
   @Put(':id')
-  async update(@Param('id', new ParseUUIDPipe()) id: string, @Body(new ValidationPipe()) updateArtistDto: UpdateArtistDto) {
+  public async update(@Param('id', new ParseUUIDPipe()) id: string, @Body(new ValidationPipe()) updateArtistDto: UpdateArtistDto) {
     const foundArtist = await this.artistsService.update(id, updateArtistDto);
     if (foundArtist) {
       return foundArtist;
-    }
+    };
     throw new NotFoundException(`There is no artist with id: ${id}`);
-  }
+  };
 
   @Delete(':id')
   @HttpCode(204)
-  async remove(@Param('id', new ParseUUIDPipe()) id: string) {
+  public async remove(@Param('id', new ParseUUIDPipe()) id: string) {
     const deletedArtist = await this.artistsService.remove(id);
     if (deletedArtist) {
       return deletedArtist;
-    }
+    };
     throw new NotFoundException(`There is no artist with id: ${id}`);
-  }
+  };
 }

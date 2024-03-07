@@ -20,7 +20,7 @@ export class DataBaseService {
 
   public async setUser(user: IUser) {
     return this.database.users.push(user);
-  }
+  };
 
   public async getUsers() {
     return this.database.users;
@@ -29,7 +29,7 @@ export class DataBaseService {
   public async setArtist(artist: IArtist) {
     this.database.artists.push(artist);
     return artist;
-  }
+  };
 
   public async getArtists() {
     return this.database.artists;
@@ -50,8 +50,14 @@ export class DataBaseService {
     const deletedArtist = this.database.artists.find((artist) => artist.id === id);
     if (deletedArtist) {
       this.database.artists = this.database.artists.filter((artist) => artist.id !== id);
+      this.database.tracks = this.database.tracks.map((track) =>
+        track.artistId === id ? { ...track, artistId: null } : track
+      );
+      this.database.albums = this.database.albums.map((album) => 
+        album.artistId === id ? { ...album,  artistId: null } : album
+      );
       return deletedArtist;
-    }
+    };
     return undefined;
   };
 
@@ -87,7 +93,7 @@ export class DataBaseService {
   public async setAlbum(album: IAlbum) {
     this.database.albums.push(album);
     return album;
-  }
+  };
 
   public async getAlbums() {
     return this.database.albums;
@@ -108,8 +114,11 @@ export class DataBaseService {
     const deletedAlbum = this.database.albums.find((album) => album.id === id);
     if (deletedAlbum) {
       this.database.albums = this.database.albums.filter((album) => album.id !== id);
-      return deletedAlbum;
-    }
+      this.database.tracks = this.database.tracks.map((track) => 
+        track.albumId === deletedAlbum.id ? { ...track,  albumId: null } : track
+      );
+      return deletedAlbum;      
+    };
     return undefined;
   };
 
