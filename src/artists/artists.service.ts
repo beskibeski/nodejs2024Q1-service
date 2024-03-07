@@ -13,25 +13,22 @@ export class ArtistsService {
       id: randomUUID(),
       ...createArtistDto,
     };
-    return this.databaseService.setArtist(artist);
-  }
-
-  public async findAll() {
-    return this.databaseService.getArtists();
-  }
-
-  public async findOne(id: string) {    
-    if (await this.databaseService.getArtistById(id)) {
-      return this.databaseService.getArtistById(id);
-    }
-    return undefined;
+    return await this.databaseService.setArtist(artist);
   };
 
-  async update(id: string, updateArtistDto: UpdateArtistDto) {
-    this.databaseService.changeArtistById(id, updateArtistDto);
-  }
+  public async findAll() {
+    return await this.databaseService.getArtists();
+  };
+
+  public async getArtistById(id: string) {
+    return await this.databaseService.getArtistById(id);
+  };
+
+  public async update(id: string, updateArtistDto: UpdateArtistDto) {    
+    return await this.databaseService.changeArtistById(id, updateArtistDto);
+  };
 
   public async remove(id: string) {
-    this.databaseService.deleteArtistById(id);
+    return await this.databaseService.deleteArtistById(id);
   }
 }

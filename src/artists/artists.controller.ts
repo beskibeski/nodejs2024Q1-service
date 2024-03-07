@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Put, Param, Delete, ParseUUIDPipe, NotFoundException, HttpCode } from '@nestjs/common';
+import { Controller, Get, Post, Body, Put, Param, Delete, ParseUUIDPipe, NotFoundException, HttpCode, ValidationPipe } from '@nestjs/common';
 import { ArtistsService } from './artists.service';
 import { CreateArtistDto } from './dto/create-artist.dto';
 import { UpdateArtistDto } from './dto/update-artist.dto';
@@ -8,7 +8,7 @@ export class ArtistsController {
   constructor(private readonly artistsService: ArtistsService) {}
 
   @Post()
-  async create(@Body() createArtistDto: CreateArtistDto) {
+  async create(@Body(new ValidationPipe()) createArtistDto: CreateArtistDto) {
     return this.artistsService.create(createArtistDto);
   }
 
@@ -18,29 +18,29 @@ export class ArtistsController {
   }
 
   @Get(':id')
-  async findOne(@Param('id', new ParseUUIDPipe) id: string) {
-    if (await this.artistsService.findOne(id)) {
-      return this.artistsService.findOne(id);
-    } ;
-    throw new NotFoundException(`There is no artist with id: ${id}`);    
+  async findOne(@Param('id', ParseUUIDPipe) id: string) {    
+    if (await this.artistsService.getArtistById(id)) {
+      return;
+    } 
+    throw new NotFoundException(`Artist with id ${id} not found`);
   }
 
   @Put(':id')
-  async update(@Param('id', ParseUUIDPipe) id: string, @Body() updateArtistDto: UpdateArtistDto) {
-    if (await this.artistsService.findOne(id)) {
-      this.artistsService.update(id, updateArtistDto);
-    } else {
-      throw new NotFoundException(`There is no artist with id: ${id}`);
-    }      
+  async update(@Param('id', new ParseUUIDPipe()) id: string, @Body(new ValidationPipe()) updateArtistDto: UpdateArtistDto) {
+    const foundArtist = await this.artistsService.update(id, updateArtistDto);
+    if (foundArtist) {
+      return foundArtist;
+    }
+    throw new NotFoundException(`There is no artist with id: ${id}`);
   }
 
   @Delete(':id')
   @HttpCode(204)
-  async remove(@Param('id', ParseUUIDPipe) id: string) {
-    if (await this.artistsService.findOne(id)) {
-      this.artistsService.remove(id);
-    } else {
-      throw new NotFoundException(`There is no artist with id: ${id}`);
+  async remove(@Param('id', new ParseUUIDPipe()) id: string) {
+    const deletedArtist = await this.artistsService.remove(id);
+    if (deletedArtist) {
+      return deletedArtist;
     }
+    throw new NotFoundException(`There is no artist with id: ${id}`);
   }
 }

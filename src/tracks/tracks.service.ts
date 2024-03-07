@@ -9,32 +9,29 @@ import { ITrack } from './entities/track.entity';
 export class TracksService {
   constructor(private databaseService: DataBaseService) {}
 
-  async create(createTrackDto: CreateTrackDto) {
+  public async create(createTrackDto: CreateTrackDto) {
     const track: ITrack = {
       id: randomUUID(),
       albumId: null,
       artistId: null,
       ...createTrackDto,
     };
-    return this.databaseService.setTrack(track);
+    return await this.databaseService.setTrack(track);
   }
 
-  async findAll() {
-    return this.databaseService.getTracks();
+  public async findAll() {
+    return await this.databaseService.getTracks();
   }
 
-  async findOne(id: string) {
-    if (await this.databaseService.getTrackById(id)) {
-      return this.databaseService.getTrackById(id);
-    }
-    return undefined;
+  public async findOne(id: string) {
+    return await this.databaseService.getTrackById(id);
   };  
 
-  async update(id: string, updateTrackDto: UpdateTrackDto) {
-    this.databaseService.changeTrackById(id, updateTrackDto);
+  public async update(id: string, updateTrackDto: UpdateTrackDto) {
+    return await this.databaseService.changeTrackById(id, updateTrackDto);
   }
 
-  async remove(id: string) {
-    this.databaseService.deleteTrackById(id);
+  public async remove(id: string) {
+    return await this.databaseService.deleteTrackById(id);
   }
 }

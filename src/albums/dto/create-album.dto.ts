@@ -1,7 +1,13 @@
-import { IAlbum } from "../entities/album.entity";
+import { 
+  IsDefined, IsInt, IsOptional, IsUUID
+} from 'class-validator';
 
-export class CreateAlbumDto implements Partial<IAlbum>{
+export class CreateAlbumDto {
+  @IsDefined()
   name: string;
+  @IsDefined()  
   year: number;
+  @IsOptional()
+  @IsUUID()
   artistId?: string | null;
 }

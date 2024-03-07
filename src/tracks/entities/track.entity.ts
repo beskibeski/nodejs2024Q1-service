@@ -1,4 +1,10 @@
-export class Track {}
+export class Track implements ITrack{
+  id: string;
+  name: string;
+  artistId: string | null;
+  albumId: string | null;
+  duration: number;
+}
 
 export interface ITrack {
   id: string; // uuid v4

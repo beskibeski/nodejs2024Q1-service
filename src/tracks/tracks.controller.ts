@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ParseUUIDPipe, HttpCode, NotFoundException } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseUUIDPipe, HttpCode, NotFoundException, ValidationPipe } from '@nestjs/common';
 import { TracksService } from './tracks.service';
 import { CreateTrackDto } from './dto/create-track.dto';
 import { UpdateTrackDto } from './dto/update-track.dto';
@@ -8,39 +8,39 @@ export class TracksController {
   constructor(private readonly tracksService: TracksService) {}
 
   @Post()
-  create(@Body() createTrackDto: CreateTrackDto) {
+  async create(@Body(new ValidationPipe()) createTrackDto: CreateTrackDto) {
     return this.tracksService.create(createTrackDto);
   }
 
   @Get()
-  findAll() {
+  async findAll() {
     return this.tracksService.findAll();
-  }
+  };
 
   @Get(':id')
-  async findOne(@Param('id', new ParseUUIDPipe) id: string) {
+  async findOne(@Param('id', new ParseUUIDPipe()) id: string) {   
     if (await this.tracksService.findOne(id)) {
-      return this.tracksService.findOne(id);
-    } ;
-    throw new NotFoundException(`There is no track with id: ${id}`);    
-  }
+      return;
+    };
+    throw new NotFoundException(`There is no track with id: ${id}`);      
+  };
 
   @Patch(':id')
-  async update(@Param('id', ParseUUIDPipe) id: string, @Body() updateTrackDto: UpdateTrackDto) {
-    if (await this.tracksService.findOne(id)) {
-      this.tracksService.update(id, updateTrackDto);
-    } else {
-      throw new NotFoundException(`There is no track with id: ${id}`);
+  async update(@Param('id', new ParseUUIDPipe()) id: string, @Body(new ValidationPipe()) updateTrackDto: UpdateTrackDto) {
+    const updatedTrack = await this.tracksService.update(id, updateTrackDto);
+    if (updatedTrack) {
+      return updatedTrack;
     }      
-  }
+    throw new NotFoundException(`There is no track with id: ${id}`);    
+  };
 
   @Delete(':id')
   @HttpCode(204)
-  async remove(@Param('id', ParseUUIDPipe) id: string) {
-    if (await this.tracksService.findOne(id)) {
-      this.tracksService.remove(id);
-    } else {
-      throw new NotFoundException(`There is no track with id: ${id}`);
-    }
-  }
+  async remove(@Param('id', new ParseUUIDPipe()) id: string) {
+    const deletedTrack = await this.tracksService.remove(id);
+    if (deletedTrack) {
+      return deletedTrack;
+    };
+    throw new NotFoundException(`There is no track with id: ${id}`);
+  };
 }

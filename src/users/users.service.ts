@@ -1,18 +1,27 @@
+import { randomUUID } from 'crypto';
 import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { DataBaseService } from 'src/database/database.service';
+import { IUser } from './entities/user.entity';
 
 @Injectable()
 export class UsersService {
   constructor(private databaseService: DataBaseService) {}
 
-  create(createUserDto: CreateUserDto) {
-    return 'This action adds a new user';
+  public async create(createUserDto: CreateUserDto) {
+    const user: IUser = {
+      id: randomUUID(),
+      ...createUserDto,
+      version: 1,
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
+    }
+    await this.databaseService.setUser(user);
   };
 
-  public findAll() {
-    return this.databaseService.getUsers();
+  public async findAll() {
+    return await this.databaseService.getUsers();
   };
 
   findOne(id: number) {

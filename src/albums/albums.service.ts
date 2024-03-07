@@ -15,25 +15,22 @@ export class AlbumsService {
       artistId: null,
       ...createAlbumDto,      
     };
-    return this.databaseService.setAlbum(album);
+    return await this.databaseService.setAlbum(album);
   }
 
-  async findAll() {
-    return this.databaseService.getAlbums();
+  async getAll() {
+    return await this.databaseService.getAlbums();
   }
 
-  async findOne(id: string) {
-    if (await this.databaseService.getAlbumById(id)) {
-      return this.databaseService.getAlbumById(id);
-    }
-    return undefined;  
+  async findOne(id: string) {    
+    return await this.databaseService.getAlbumById(id);
   }
 
   async update(id: string, updateAlbumDto: UpdateAlbumDto) {
-    this.databaseService.changeAlbumById(id, updateAlbumDto);
+    return await this.databaseService.changeAlbumById(id, updateAlbumDto);
   }
 
   async remove(id: string) {
-    this.databaseService.deleteAlbumById(id);
+    return await this.databaseService.deleteAlbumById(id);
   }
 }
