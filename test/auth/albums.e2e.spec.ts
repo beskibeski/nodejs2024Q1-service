@@ -1,4 +1,4 @@
-/*import { request } from '../lib';
+import { request } from '../lib';
 import { albumsRoutes } from '../endpoints';
 import { StatusCodes } from 'http-status-codes';
 
@@ -62,4 +62,4 @@ describe('Album (e2e)', () => {
         .expect(StatusCodes.UNAUTHORIZED);
     });
   });
-});*/
+});

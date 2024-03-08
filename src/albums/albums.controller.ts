@@ -24,7 +24,7 @@ export class AlbumsController {
     if (foundAlbum) {
       return foundAlbum;
     };
-    throw new NotFoundException(`There is no album with id: ${id}`);    
+    throw new NotFoundException(`There is no album with id: ${id}`);
   }
 
   @Put(':id')

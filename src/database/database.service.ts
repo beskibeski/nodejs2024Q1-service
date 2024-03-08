@@ -7,6 +7,8 @@ import { UpdateArtistDto } from 'src/artists/dto/update-artist.dto';
 import { ITrack } from 'src/tracks/entities/track.entity';
 import { UpdateTrackDto } from 'src/tracks/dto/update-track.dto';
 import { IUser } from 'src/users/entities/user.entity';
+import { IFavoritesResponse } from 'src/favorites/entities/favorite.entity';
+import { UpdateUserDto } from 'src/users/dto/update-user.dto';
 
 @Injectable()
 export class DataBaseService {
@@ -19,16 +21,40 @@ export class DataBaseService {
   };
 
   public async setUser(user: IUser) {
-    return this.database.users.push(user);
+    this.database.users.push(user);
+    return user;
   };
 
   public async getUsers() {
     return this.database.users;
   };
 
+  public async getUserById(id: string) {
+    return this.database.users.find((user) => user.id === id);
+  };
+
   public async setArtist(artist: IArtist) {
     this.database.artists.push(artist);
     return artist;
+  };
+
+  public async changeUserPassword(id: string, updatedUserData: UpdateUserDto) {    
+    const updatedUser = this.database.users.find((user) => user.id === id);    
+    if (updatedUser && updatedUser.password === updatedUserData.oldPassword) {
+      this.database.users = this.database.users.map((user: IUser) =>
+        user.id === id ? { ...user, password: updatedUserData.newPassword, version: user.version += 1, updatedAt: user.updatedAt = Date.now() } : user
+      );      
+      return updatedUser;
+    };
+    return !updatedUser ? undefined : '';
+  };
+
+  public async deleteUserById(id: string) {
+    const deletedUser = this.database.users.find((user) => user.id === id);
+    if (deletedUser) {
+      this.database.users = this.database.users.filter((user) => user.id !== id);     
+    }
+    return deletedUser;
   };
 
   public async getArtists() {
@@ -55,10 +81,9 @@ export class DataBaseService {
       );
       this.database.albums = this.database.albums.map((album) => 
         album.artistId === id ? { ...album,  artistId: null } : album
-      );
-      return deletedArtist;
+      );      
     };
-    return undefined;
+    return deletedArtist;
   };
 
   public async setTrack(track: ITrack) {
@@ -84,10 +109,9 @@ export class DataBaseService {
   public async deleteTrackById(id: string) {
     const deletedTrack = this.database.tracks.find((track) => track.id === id);
     if (deletedTrack) {
-      this.database.tracks = this.database.tracks.filter((track) => track.id !== id);
-      return deletedTrack;
+      this.database.tracks = this.database.tracks.filter((track) => track.id !== id);     
     }
-    return undefined;
+    return deletedTrack;
   };
 
   public async setAlbum(album: IAlbum) {
@@ -116,13 +140,16 @@ export class DataBaseService {
       this.database.albums = this.database.albums.filter((album) => album.id !== id);
       this.database.tracks = this.database.tracks.map((track) => 
         track.albumId === deletedAlbum.id ? { ...track,  albumId: null } : track
-      );
-      return deletedAlbum;      
+      );         
     };
-    return undefined;
+    return deletedAlbum;
   };
 
-  public async getFavorites() {
-    return this.database.albums;
+  public async getFavorites(): Promise<IFavoritesResponse> {
+    return {
+      albums: this.database.albums,
+      artists: this.database.artists,
+      tracks: this.database.tracks,
+    };
   };
 };

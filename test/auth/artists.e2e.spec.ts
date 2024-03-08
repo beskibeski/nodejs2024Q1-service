@@ -1,4 +1,4 @@
-/*import { request } from '../lib';
+import { request } from '../lib';
 import { artistsRoutes } from '../endpoints';
 import { StatusCodes } from 'http-status-codes';
 
@@ -61,4 +61,4 @@ describe('artist (e2e)', () => {
         .expect(StatusCodes.UNAUTHORIZED);
     });
   });
-});*/
+});

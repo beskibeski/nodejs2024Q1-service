@@ -1,11 +1,28 @@
 export class User implements IUser {
   id: string;
-  login: string;
+  login: string;  
   password: string;
   version: number;
   createdAt: number;
-  updatedAt: number;
+  updatedAt: number;  
 };
+
+export class UserResponse implements IUserResponse {
+  id: string;
+  login: string;
+  version: number;
+  createdAt: number;
+  updatedAt: number; 
+};
+
+export interface IUserResponse extends Partial<IUser> {
+  id: string;
+  login: string;
+  version: number;
+  createdAt: number;
+  updatedAt: number; 
+};
+
 
 export interface IUser {
   id: string; // uuid v4

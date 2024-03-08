@@ -11,8 +11,8 @@ export class FavoritesService {
     return 'This action adds a new favorite';
   }
 
-  findAll() {
-    return this.databaseService.getFavorites();
+  public async findAll() {
+    return await this.databaseService.getFavorites();
   }
 
   findOne(id: number) {

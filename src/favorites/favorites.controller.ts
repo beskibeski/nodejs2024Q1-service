@@ -13,8 +13,8 @@ export class FavoritesController {
   }
 
   @Get()
-  findAll() {
-    return this.favoritesService.findAll();
+  public async findAll() {
+    return await this.favoritesService.findAll();
   }
 
   @Get(':id')

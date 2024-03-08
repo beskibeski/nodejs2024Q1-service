@@ -1,4 +1,4 @@
-/*import { request } from '../lib';
+import { request } from '../lib';
 import { StatusCodes } from 'http-status-codes';
 import { favoritesRoutes } from '../endpoints';
 
@@ -70,4 +70,4 @@ describe('Favorites (e2e)', () => {
         .expect(StatusCodes.UNAUTHORIZED);
     });
   });
-});*/
+});
