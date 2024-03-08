@@ -1,11 +1,9 @@
-import { 
-  IsDefined, IsInt, IsOptional, IsUUID
-} from 'class-validator';
+import { IsDefined, IsOptional, IsUUID } from 'class-validator';
 
 export class CreateAlbumDto {
   @IsDefined()
   name: string;
-  @IsDefined()  
+  @IsDefined()
   year: number;
   @IsOptional()
   @IsUUID()

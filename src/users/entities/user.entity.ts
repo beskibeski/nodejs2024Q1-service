@@ -1,28 +1,27 @@
 export class User implements IUser {
   id: string;
-  login: string;  
+  login: string;
   password: string;
   version: number;
   createdAt: number;
-  updatedAt: number;  
-};
+  updatedAt: number;
+}
 
 export class UserResponse implements IUserResponse {
   id: string;
   login: string;
   version: number;
   createdAt: number;
-  updatedAt: number; 
-};
+  updatedAt: number;
+}
 
 export interface IUserResponse extends Partial<IUser> {
   id: string;
   login: string;
   version: number;
   createdAt: number;
-  updatedAt: number; 
-};
-
+  updatedAt: number;
+}
 
 export interface IUser {
   id: string; // uuid v4
@@ -30,5 +29,5 @@ export interface IUser {
   password: string;
   version: number; // integer number, increments on update
   createdAt: number; // timestamp of creation
-  updatedAt: number; // timestamp of last update  
-};
+  updatedAt: number; // timestamp of last update
+}

@@ -66,7 +66,7 @@ describe('Tracks (e2e)', () => {
         .get(tracksRoutes.getById(id))
         .set(commonHeaders);
 
-      expect(searchResponse.statusCode).toBe(StatusCodes.OK);         
+      expect(searchResponse.statusCode).toBe(StatusCodes.OK);
       expect(searchResponse.body).toBeInstanceOf(Object);
 
       const cleanupResponse = await unauthorizedRequest

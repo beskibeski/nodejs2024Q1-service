@@ -13,24 +13,24 @@ export class AlbumsService {
     const album: IAlbum = {
       id: randomUUID(),
       artistId: null,
-      ...createAlbumDto,      
+      ...createAlbumDto,
     };
     return await this.databaseService.setAlbum(album);
-  };
+  }
 
   public async getAll() {
     return await this.databaseService.getAlbums();
-  };
+  }
 
-  public async findOne(id: string) {    
+  public async findOne(id: string) {
     return await this.databaseService.getAlbumById(id);
-  };
+  }
 
   public async update(id: string, updateAlbumDto: UpdateAlbumDto) {
     return await this.databaseService.changeAlbumById(id, updateAlbumDto);
-  };
+  }
 
   public async remove(id: string) {
     return await this.databaseService.deleteAlbumById(id);
-  };
+  }
 }

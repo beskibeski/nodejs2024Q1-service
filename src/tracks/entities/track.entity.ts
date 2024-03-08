@@ -1,4 +1,4 @@
-export class Track implements ITrack{
+export class Track implements ITrack {
   id: string;
   name: string;
   artistId: string | null;

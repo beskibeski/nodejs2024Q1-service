@@ -1,4 +1,10 @@
-import { IsDefined, IsNumber, IsOptional, IsString, IsUUID } from "class-validator";
+import {
+  IsDefined,
+  IsNumber,
+  IsOptional,
+  IsString,
+  IsUUID,
+} from 'class-validator';
 
 export class CreateTrackDto {
   @IsDefined()

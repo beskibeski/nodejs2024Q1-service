@@ -25,7 +25,7 @@ export class TracksService {
 
   public async findOne(id: string) {
     return await this.databaseService.getTrackById(id);
-  };  
+  }
 
   public async update(id: string, updateTrackDto: UpdateTrackDto) {
     return await this.databaseService.changeTrackById(id, updateTrackDto);

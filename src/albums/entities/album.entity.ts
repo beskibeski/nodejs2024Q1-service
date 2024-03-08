@@ -1,4 +1,4 @@
-export class Album implements IAlbum{
+export class Album implements IAlbum {
   id: string;
   name: string;
   year: number;

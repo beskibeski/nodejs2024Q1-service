@@ -16,7 +16,7 @@ export class UsersService {
       version: 1,
       createdAt: Date.now(),
       updatedAt: Date.now(),
-    }
+    };
     await this.databaseService.setUser(createdUser);
     const createdUserWithoutPassword: IUserResponse = {
       id: createdUser.id,
@@ -24,20 +24,23 @@ export class UsersService {
       version: createdUser.version,
       createdAt: createdUser.createdAt,
       updatedAt: createdUser.updatedAt,
-    }
+    };
     return createdUserWithoutPassword;
-  };
+  }
 
   public async findAll() {
     return await this.databaseService.getUsers();
-  };
+  }
 
   public async findOne(id: string) {
     return await this.databaseService.getUserById(id);
-  };
+  }
 
   public async update(id: string, updateUserDto: UpdateUserDto) {
-    const updatedUser = await this.databaseService.changeUserPassword(id, updateUserDto);  
+    const updatedUser = await this.databaseService.changeUserPassword(
+      id,
+      updateUserDto,
+    );
     if (updatedUser) {
       const updatedUserWithoutPassword: UserResponse = {
         id: updatedUser.id,
@@ -47,11 +50,11 @@ export class UsersService {
         updatedAt: updatedUser.updatedAt,
       };
       return updatedUserWithoutPassword;
-    };    
+    }
     return updatedUser;
-  };
+  }
 
   public async remove(id: string) {
     return await this.databaseService.deleteUserById(id);
-  };
+  }
 }

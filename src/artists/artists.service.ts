@@ -14,19 +14,19 @@ export class ArtistsService {
       ...createArtistDto,
     };
     return await this.databaseService.setArtist(artist);
-  };
+  }
 
   public async findAll() {
     return await this.databaseService.getArtists();
-  };
+  }
 
   public async getArtistById(id: string) {
     return await this.databaseService.getArtistById(id);
-  };
+  }
 
-  public async update(id: string, updateArtistDto: UpdateArtistDto) {    
+  public async update(id: string, updateArtistDto: UpdateArtistDto) {
     return await this.databaseService.changeArtistById(id, updateArtistDto);
-  };
+  }
 
   public async remove(id: string) {
     return await this.databaseService.deleteArtistById(id);

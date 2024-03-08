@@ -6,6 +6,6 @@ import { DataBaseModule } from 'src/database/database.module';
 @Module({
   imports: [DataBaseModule],
   controllers: [AlbumsController],
-  providers: [AlbumsService]
+  providers: [AlbumsService],
 })
 export class AlbumsModule {}
