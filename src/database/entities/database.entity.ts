@@ -9,5 +9,5 @@ export interface IDatabase {
   artists: IArtist[];
   tracks: ITrack[];
   albums: IAlbum[];
-  favorites: IFavorite[];
+  favorites: IFavorite;
 }

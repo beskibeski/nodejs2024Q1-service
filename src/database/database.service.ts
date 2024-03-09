@@ -7,7 +7,7 @@ import { UpdateArtistDto } from 'src/artists/dto/update-artist.dto';
 import { ITrack } from 'src/tracks/entities/track.entity';
 import { UpdateTrackDto } from 'src/tracks/dto/update-track.dto';
 import { IUser } from 'src/users/entities/user.entity';
-import { IFavoritesResponse } from 'src/favorites/entities/favorite.entity';
+import { IFavorite } from 'src/favorites/entities/favorite.entity';
 import { UpdateUserDto } from 'src/users/dto/update-user.dto';
 
 @Injectable()
@@ -17,7 +17,11 @@ export class DataBaseService {
     artists: [],
     tracks: [],
     albums: [],
-    favorites: [],
+    favorites: {
+      albums: [],
+      artists: [],
+      tracks: [],
+    },
   };
 
   public async setUser(user: IUser) {
@@ -31,11 +35,6 @@ export class DataBaseService {
 
   public async getUserById(id: string) {
     return this.database.users.find((user) => user.id === id);
-  }
-
-  public async setArtist(artist: IArtist) {
-    this.database.artists.push(artist);
-    return artist;
   }
 
   public async changeUserPassword(id: string, updatedUserData: UpdateUserDto) {
@@ -64,6 +63,11 @@ export class DataBaseService {
       );
     }
     return deletedUser;
+  }
+
+  public async setArtist(artist: IArtist) {
+    this.database.artists.push(artist);
+    return artist;
   }
 
   public async getArtists() {
@@ -98,6 +102,9 @@ export class DataBaseService {
       this.database.albums = this.database.albums.map((album) =>
         album.artistId === id ? { ...album, artistId: null } : album,
       );
+      this.database.favorites.artists = this.database.favorites.artists.filter(
+        (artistId) => artistId !== id,
+      );
     }
     return deletedArtist;
   }
@@ -127,6 +134,9 @@ export class DataBaseService {
     if (deletedTrack) {
       this.database.tracks = this.database.tracks.filter(
         (track) => track.id !== id,
+      );
+      this.database.favorites.tracks = this.database.favorites.tracks.filter(
+        (trackId) => trackId !== id,
       );
     }
     return deletedTrack;
@@ -161,15 +171,80 @@ export class DataBaseService {
       this.database.tracks = this.database.tracks.map((track) =>
         track.albumId === deletedAlbum.id ? { ...track, albumId: null } : track,
       );
+      this.database.favorites.albums = this.database.favorites.albums.filter(
+        (albumId) => albumId !== id,
+      );
     }
     return deletedAlbum;
   }
 
-  public async getFavorites(): Promise<IFavoritesResponse> {
+  public async getFavorites(): Promise<IFavorite> {
     return {
-      albums: this.database.albums,
-      artists: this.database.artists,
-      tracks: this.database.tracks,
+      albums: this.database.favorites.albums,
+      artists: this.database.favorites.artists,
+      tracks: this.database.favorites.tracks,
     };
+  }
+
+  public async addAlbumToFavorites(id: string) {
+    const addedAlbum = this.database.albums.find((album) => album.id === id);
+    if (addedAlbum) {
+      this.database.favorites.albums.push(id);
+    }
+    return addedAlbum;
+  }
+
+  public async deleteAlbumFromFavorites(id: string) {
+    const deletedAlbum = this.database.favorites.albums.find(
+      (albumId) => albumId === id,
+    );
+    if (deletedAlbum) {
+      this.database.favorites.albums = this.database.favorites.albums.filter(
+        (albumId) => albumId !== id,
+      );
+    }
+    return deletedAlbum;
+  }
+
+  public async addArtistToFavorites(id: string) {
+    const addedArtist = this.database.artists.find(
+      (artist) => artist.id === id,
+    );
+    if (addedArtist) {
+      this.database.favorites.artists.push(id);
+    }
+    return addedArtist;
+  }
+
+  public async deleteArtistFromFavorites(id: string) {
+    const deletedArtist = this.database.favorites.artists.find(
+      (atistId) => atistId === id,
+    );
+    if (deletedArtist) {
+      this.database.favorites.artists = this.database.favorites.artists.filter(
+        (artistId) => artistId !== id,
+      );
+    }
+    return deletedArtist;
+  }
+
+  public async addTrackToFavorites(id: string) {
+    const addedTrack = this.database.tracks.find((track) => track.id === id);
+    if (addedTrack) {
+      this.database.favorites.tracks.push(id);
+    }
+    return addedTrack;
+  }
+
+  public async deleteTrackFromFavorites(id: string) {
+    const deletedTrack = this.database.favorites.tracks.find(
+      (trackId) => trackId === id,
+    );
+    if (deletedTrack) {
+      this.database.favorites.tracks = this.database.favorites.tracks.filter(
+        (trackId) => trackId !== id,
+      );
+    }
+    return deletedTrack;
   }
 }
