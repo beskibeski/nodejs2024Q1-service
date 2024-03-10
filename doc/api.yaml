@@ -27,6 +27,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UserResponse'
+        '400':
+          description: Body doesn't contain required fields
     get:
       operationId: UsersController_findAll
       description: Get all users
@@ -55,6 +57,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UserResponse'
+        '400':
+          description: Invalid id (not uuid)
+        '404':
+          description: Id doesn't exist
     put:
       operationId: UsersController_update
       description: Update user's password by id
@@ -77,6 +83,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UserResponse'
+        '400':
+          description: Invalid id (not uuid)
+        '404':
+          description: Id doesn't exist
     delete:
       operationId: UsersController_remove
       description: Delete user by id
@@ -89,6 +99,10 @@ paths:
       responses:
         '204':
           description: Successful operation
+        '400':
+          description: Invalid id (not uuid)
+        '404':
+          description: Id doesn't exist
   /artist:
     post:
       operationId: ArtistsController_create
@@ -103,6 +117,12 @@ paths:
       responses:
         '201':
           description: Successful operation
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/Artist'
+        '400':
+          description: Body doesn't contain required fields
     get:
       operationId: ArtistsController_findAll
       description: Get all artists
@@ -110,6 +130,10 @@ paths:
       responses:
         '200':
           description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Artist'
   /artist/{id}:
     get:
       operationId: ArtistsController_findOne
@@ -123,6 +147,14 @@ paths:
       responses:
         '200':
           description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Artist'
+        '400':
+          description: Invalid id (not uuid)
+        '404':
+          description: Id doesn't exist
     put:
       operationId: ArtistsController_update
       description: Update artist by id
@@ -141,6 +173,14 @@ paths:
       responses:
         '200':
           description: Successful operation
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/Artist'
+        '400':
+          description: Invalid id (not uuid)
+        '404':
+          description: Id doesn't exist
     delete:
       operationId: ArtistsController_remove
       description: Delete artist by id
@@ -153,6 +193,10 @@ paths:
       responses:
         '204':
           description: Successful operation
+        '400':
+          description: Invalid id (not uuid)
+        '404':
+          description: Id doesn't exist
   /track:
     post:
       operationId: TracksController_create
@@ -167,6 +211,12 @@ paths:
       responses:
         '201':
           description: Successful operation
+          content:
+            application/json:
+              schema: 
+               $ref: '#/components/schemas/Track'
+        '400':
+          description: Body doesn't contain required fields
     get:
       operationId: TracksController_findAll
       description: Get all tracks
@@ -174,6 +224,10 @@ paths:
       responses:
         '200':
           description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Track'        
   /track/{id}:
     get:
       operationId: TracksController_findOne
@@ -187,6 +241,14 @@ paths:
       responses:
         '200':
           description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Track'
+        '400':
+          description: Invalid id (not uuid)
+        '404':
+          description: Id doesn't exist
     put:
       operationId: TracksController_update
       description: Update artist by id
@@ -205,6 +267,14 @@ paths:
       responses:
         '200':
           description: Successful operation
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/Track'
+        '400':
+          description: Invalid id (not uuid)
+        '404':
+          description: Id doesn't exist
     delete:
       operationId: TracksController_remove
       description: Delete artist by id
@@ -217,6 +287,10 @@ paths:
       responses:
         '204':
           description: Successful operation
+        '400':
+          description: Invalid id (not uuid)
+        '404':
+          description: Id doesn't exist
   /album:
     post:
       operationId: AlbumsController_create
@@ -231,6 +305,8 @@ paths:
       responses:
         '201':
           description: Successful operation
+        '400':
+          description: Body doesn't contain required fields
     get:
       operationId: AlbumsController_findAll
       description: Get all albums
@@ -238,6 +314,10 @@ paths:
       responses:
         '200':
           description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Album'
   /album/{id}:
     get:
       operationId: AlbumsController_findOne
@@ -251,6 +331,14 @@ paths:
       responses:
         '200':
           description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Album'
+        '400':
+          description: Invalid id (not uuid)
+        '404':
+          description: Id doesn't exist
     put:
       operationId: AlbumsController_update
       description: Update artist by id
@@ -269,6 +357,14 @@ paths:
       responses:
         '200':
           description: Successful operation
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/Artist'
+        '400':
+          description: Invalid id (not uuid)
+        '404':
+          description: Id doesn't exist
     delete:
       operationId: AlbumsController_remove
       description: Delete album by id
@@ -281,6 +377,10 @@ paths:
       responses:
         '204':
           description: Successful operation
+        '400':
+          description: Invalid id (not uuid)
+        '404':
+          description: Id doesn't exist
   /favs:
     get:
       operationId: FavoritesController_findAll
@@ -289,6 +389,10 @@ paths:
       responses:
         '200':
           description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FavoritesResponse'
   /favs/album/{id}:
     post:
       operationId: FavoritesController_addAlbumToFavoritesById
@@ -302,6 +406,14 @@ paths:
       responses:
         '201':
           description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Album'        
+        '400':
+          description: Invalid id (not uuid)
+        '422':
+          description: Id doesn't exist
     delete:
       operationId: FavoritesController_deleteAlbumFromFavoritesById
       description: Delete favorite album by id
@@ -314,6 +426,10 @@ paths:
       responses:
         '204':
           description: Successful operation
+        '400':
+          description: Invalid id (not uuid)
+        '404':
+          description: Id is not favorite
   /favs/artist/{id}:
     post:
       operationId: FavoritesController_addArtistToFavoritesById
@@ -327,6 +443,14 @@ paths:
       responses:
         '201':
           description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Artist'        
+        '400':
+          description: Invalid id (not uuid)
+        '422':
+          description: Id doesn't exist
     delete:
       operationId: FavoritesController_deleteArtistFromFavoritesById
       description: Delete favorite artist by id
@@ -339,6 +463,10 @@ paths:
       responses:
         '204':
           description: Successful operation
+        '400':
+          description: Invalid id (not uuid)
+        '404':
+          description: Id is not favorite
   /favs/track/{id}:
     post:
       operationId: FavoritesController_addTrackToFavoritesById
@@ -352,6 +480,14 @@ paths:
       responses:
         '201':
           description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Track'
+        '400':
+          description: Invalid id (not uuid)
+        '422':
+          description: Id doesn't exist
     delete:
       operationId: FavoritesController_deleteTrackFromFavoritesById
       description: Delete favorite track by id
@@ -364,6 +500,10 @@ paths:
       responses:
         '204':
           description: Successful operation
+        '400':
+          description: Invalid id (not uuid)
+        '404':
+          description: Id is not favorite
 components:
   schemas:
     CreateUserDto:
@@ -564,6 +704,7 @@ components:
           type: string        
         version:
           type: number
+          minimum: 1
         createdAt:
           type: number
         updatedAt:
