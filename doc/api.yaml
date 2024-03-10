@@ -1,15 +1,18 @@
 openapi: 3.0.0
+info:
+  title: Home Library Service
+  description: Home music library service
+  version: '1.0.0'
+  contact: {}
+tags:
+  - name: Rest service
+    description: ''
+servers: []
 paths:
-  /:
-    get:
-      operationId: AppController_getHello
-      parameters: []
-      responses:
-        '200':
-          description: ''
   /user:
     post:
       operationId: UsersController_create
+      description: Create a new user
       parameters: []
       requestBody:
         required: true
@@ -19,16 +22,26 @@ paths:
               $ref: "#/components/schemas/CreateUserDto"
       responses:
         '201':
-          description: ''
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
     get:
       operationId: UsersController_findAll
+      description: Get all users
       parameters: []
       responses:
         '200':
-          description: ''
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
   /user/{id}:
     get:
-      operationId: 'UsersController_findOne'
+      operationId: UsersController_findOne
+      description: Get user by id
       parameters:
         - name: id
           required: true
@@ -36,10 +49,15 @@ paths:
           schema:
             type: string
       responses:
-        '200'
-          description:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
     put:
       operationId: UsersController_update
+      description: Update user's password by id
       parameters:
         - name: id
           required: true
@@ -53,10 +71,15 @@ paths:
             schema:
               $ref: '#/components/schemas/UpdateUserDto'
       responses:
-        '200'
-          description: ''
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
     delete:
       operationId: UsersController_remove
+      description: Delete user by id
       parameters:
         - name: id
           required: true
@@ -64,11 +87,12 @@ paths:
           schema:
             type: string
       responses:
-        '204'
-          description: ''
+        '204':
+          description: Successful operation
   /artist:
     post:
       operationId: ArtistsController_create
+      description: Create a new artist
       parameters: []
       requestBody:
         required: true
@@ -77,17 +101,19 @@ paths:
             schema:
               $ref: '#/components/schemas/CreateArtistDto'
       responses:
-        '201'
-          description: ''
+        '201':
+          description: Successful operation
     get:
       operationId: ArtistsController_findAll
+      description: Get all artists
       parameters: []
-        responses:
-          '200'
-            description: ''
+      responses:
+        '200':
+          description: Successful operation
   /artist/{id}:
     get:
       operationId: ArtistsController_findOne
+      description: Get artist by id
       parameters:  
         - name: id
           required: true
@@ -95,10 +121,11 @@ paths:
           schema:
             type: string
       responses:
-        '200'
-          description: ''
+        '200':
+          description: Successful operation
     put:
       operationId: ArtistsController_update
+      description: Update artist by id
       parameters:
         - name: id
           required: true
@@ -112,10 +139,11 @@ paths:
             schema:
               $ref: '#/components/schemas/UpdateArtistDto'
       responses:
-        '200'
-          description: ''
+        '200':
+          description: Successful operation
     delete:
       operationId: ArtistsController_remove
+      description: Delete artist by id
       parameters:
         - name: id
           required: true
@@ -123,11 +151,12 @@ paths:
           schema:
             type: string
       responses:
-        '204'
-          description: ''
+        '204':
+          description: Successful operation
   /track:
     post:
       operationId: TracksController_create
+      description: Update artist by id
       parameters: []
       requestBody:
         required: true
@@ -136,17 +165,19 @@ paths:
             schema: 
               $ref: '#/components/schemas/CreateTrackDto'
       responses:
-        '201'
-          description: ''
+        '201':
+          description: Successful operation
     get:
       operationId: TracksController_findAll
+      description: Get all tracks
       parameters: []
       responses:
-        '200'
-          description: ''
+        '200':
+          description: Successful operation
   /track/{id}:
     get:
       operationId: TracksController_findOne
+      description: Get track by id
       parameters:
         - name: id
           required: true
@@ -154,10 +185,11 @@ paths:
           schema:
             type: string
       responses:
-        '200'
-          description: ''
+        '200':
+          description: Successful operation
     put:
       operationId: TracksController_update
+      description: Update artist by id
       parameters:
         - name: id
           required: true
@@ -171,10 +203,11 @@ paths:
             schema:
               $ref: '#/components/schemas/UpdateTrackDto'
       responses:
-        '200'
-          description: ''
+        '200':
+          description: Successful operation
     delete:
       operationId: TracksController_remove
+      description: Delete artist by id
       parameters:
         - name: id
           required: true
@@ -182,11 +215,12 @@ paths:
           schema:
             type: string
       responses:
-        '204'
-          description: ''
+        '204':
+          description: Successful operation
   /album:
     post:
       operationId: AlbumsController_create
+      description: Create a new album
       parameters: []
       requestBody:
         required: true
@@ -195,17 +229,19 @@ paths:
             schema:
               $ref: '#/components/schemas/CreateAlbumDto'
       responses:
-        '201'
-          description: ''
+        '201':
+          description: Successful operation
     get:
       operationId: AlbumsController_findAll
+      description: Get all albums
       parameters: []
       responses:
-        '200'
-          description: ''
+        '200':
+          description: Successful operation
   /album/{id}:
     get:
       operationId: AlbumsController_findOne
+      description: Get album by id
       parameters:
         - name: id
           required: true
@@ -213,10 +249,11 @@ paths:
           schema:
             type: string
       responses:
-        '200'
-          description: ''
+        '200':
+          description: Successful operation
     put:
       operationId: AlbumsController_update
+      description: Update artist by id
       parameters:
         - name: id
           required: true
@@ -230,10 +267,11 @@ paths:
             schema:
               $ref: '#/components/schemas/UpdateAlbumDto'
       responses:
-        '200'
-          description: ''
+        '200':
+          description: Successful operation
     delete:
       operationId: AlbumsController_remove
+      description: Delete album by id
       parameters:
         - name: id
           required: true
@@ -241,18 +279,20 @@ paths:
           schema:
             type: string
       responses:
-        '204'
-          description: ''
+        '204':
+          description: Successful operation
   /favs:
     get:
       operationId: FavoritesController_findAll
+      description: Get all favorites
       parameters: []
       responses:
-        '200'
-          description: ''
+        '200':
+          description: Successful operation
   /favs/album/{id}:
     post:
       operationId: FavoritesController_addAlbumToFavoritesById
+      description: Add favorite album by id
       parameters:
         - name: id
           required: true
@@ -260,10 +300,11 @@ paths:
           schema:
             type: string
       responses:
-        '201'
-          description: ''
+        '201':
+          description: Successful operation
     delete:
       operationId: FavoritesController_deleteAlbumFromFavoritesById
+      description: Delete favorite album by id
       parameters:
         - name: id
           required: true
@@ -271,11 +312,12 @@ paths:
           schema:
             type: string
       responses:
-        '204'
-          description: ''
+        '204':
+          description: Successful operation
   /favs/artist/{id}:
     post:
       operationId: FavoritesController_addArtistToFavoritesById
+      description: Add favorite artist by id
       parameters:
         - name: id
           required: true
@@ -283,10 +325,11 @@ paths:
           schema:
             type: string
       responses:
-        '201'
-          description: ''
+        '201':
+          description: Successful operation
     delete:
       operationId: FavoritesController_deleteArtistFromFavoritesById
+      description: Delete favorite artist by id
       parameters:
         - name: id
           required: true
@@ -294,11 +337,12 @@ paths:
           schema:
             type: string
       responses:
-        '204'
-          description: ''
+        '204':
+          description: Successful operation
   /favs/track/{id}:
     post:
       operationId: FavoritesController_addTrackToFavoritesById
+      description: Add favorite track by id
       parameters:
         - name: id
           required: true
@@ -306,10 +350,11 @@ paths:
           schema:
             type: string
       responses:
-        '201'
-          description: ''
+        '201':
+          description: Successful operation
     delete:
       operationId: FavoritesController_deleteTrackFromFavoritesById
+      description: Delete favorite track by id
       parameters:
         - name: id
           required: true
@@ -317,40 +362,209 @@ paths:
           schema:
             type: string
       responses:
-        '204'
-          description: ''
-info:
-  title: Home Library Service
-  description: Home music library service
-  version: '1.0.0'
-  contact: {}
-tags:
-  - name: Rest service
-    description: ''
-servers: []
+        '204':
+          description: Successful operation
 components:
   schemas:
     CreateUserDto:
       type: object
       properties:
+        login:
+          type: string
+        password:
+          type: string
+      required:
+        - login
+        - password
     UpdateUserDto:
       type: object
       properties:
+        oldPassword:
+          type: string
+        newPassword:
+          type: string
+      required:
+        - oldPassword
+        - newPassword
     CreateArtistDto:
       type: object
-      properties:
+      properties:      
+        name:
+          type: string
+        grammy:
+          type: boolean
+      required:
+        - name
+        - grammy
     UpdateArtistDto:
       type: object
       properties:
+        name:
+          type: string
+        grammy:
+          type: boolean
+      required:
+        - name
+        - grammy
     CreateTrackDto:
       type: object
       properties:
+        name:
+          type: string
+        duration:
+          type: number          
+        artistId:
+          type: string
+          nullable: true
+        albumId:
+          type: string
+          nullable: true
+      required:
+        - name
+        - duration
     UpdateTrackDto:
       type: object
       properties:
+        name:
+          type: string
+        duration:
+          type: number         
+        artistId:
+          type: string
+          nullable: true
+        albumId:
+          type: string
+          nullable: true
+      required:
+        - name
+        - duration
     CreateAlbumDto:
       type: object
       properties:
+        name:
+          type: string
+        year:
+          type: number
+        artist:
+          type: string
+          nullable: true
+      required:
+        - name
+        - year
     UpdateAlbumDto:
       type: object
       properties:
+        name:
+          type: string
+        year:
+          type: number
+        artist:
+          type: string
+          nullable: true
+      required:
+        - name
+        - year
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+        login:
+          type: string
+        password:
+          type: string
+        version:
+          type: number
+        createdAt:
+          type: number
+        updatedAt:
+          type: number
+      required:
+        - id
+        - login
+        - version
+        - createdAt
+        - updatedAt
+    Album:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        year:
+          type: number
+        artistId:
+          type: string
+          nullable: true
+      required:
+        - id
+        - name
+        - year
+        - artistId
+    Artist:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        grammy:
+          type: boolean
+      required:
+        - id
+        - name
+        - grammy
+    Track:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        artistId:
+          type: string
+          nullable: true
+        albumId:
+          type: string
+          nullable: true
+        duration:
+          type: number
+      required:
+        - id
+        - name
+        - artistId
+        - albumId
+        - duration
+    FavoritesResponse:
+      type: object
+      properties:
+        albums:
+          type: array
+          items:
+            $ref: '#/components/schemas/Album'
+        artists:
+          type: array
+          items:
+            $ref: '#/components/schemas/Artist'
+        tracks:
+          type: array
+          items:
+            $ref: '#/components/schemas/Track'
+      required:
+        - artists
+        - albums
+        - tracks
+    UserResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        login:
+          type: string        
+        version:
+          type: number
+        createdAt:
+          type: number
+        updatedAt:
+          type: number
