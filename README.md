@@ -23,7 +23,7 @@ npm install
 If it fails enter:
 
 ```
-npm install --fix
+npm install --force
 ```
 
 ## Running application
