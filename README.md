@@ -9,13 +9,21 @@ If you have not already installed Git or (and) Node install them:
 ## Downloading
 
 ```
-git clone https://github.com/beskibeski/nodejs2024Q1-service.git
+git clone https://github.com/beskibeski/nodejs2024Q1-service.git -b develop
 ```
 
 ## Installing NPM modules
 
+Enter:
+
 ```
 npm install
+```
+
+If it fails enter:
+
+```
+npm install --fix
 ```
 
 ## Running application
