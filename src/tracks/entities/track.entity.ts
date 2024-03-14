@@ -1,14 +1,24 @@
-import { Column, Entity, PrimaryColumn } from "typeorm";
+import { Album } from "src/albums/entities/album.entity";
+import { Artist } from "src/artists/entities/artist.entity";
+import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Track implements ITrack {
-  @PrimaryColumn()
+  @PrimaryGeneratedColumn('uuid', { name: 'track_id'})
   id: string;
   @Column()
   name: string;
-  @Column()
+  @ManyToOne(() => Artist, (artist) => artist.id, {
+    onDelete: 'SET NULL' })
+  @JoinColumn({ name: 'artist_id'})
+  artist: Artist
+  @Column({ nullable: true })
   artistId: string | null;
-  @Column()
+  @ManyToOne(() => Album, (album) => album.id, {
+    onDelete: 'SET NULL' })
+  @JoinColumn({ name: 'album_id'})
+  album: Album
+  @Column({ nullable: true })
   albumId: string | null;
   @Column()
   duration: number;
