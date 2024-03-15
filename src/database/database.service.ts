@@ -23,48 +23,7 @@ export class DataBaseService {
       tracks: [],
     },
   };
-
-  public async setUser(user: IUser) {
-    this.database.users.push(user);
-    return user;
-  }
-
-  public async getUsers() {
-    return this.database.users;
-  }
-
-  public async getUserById(id: string) {
-    return this.database.users.find((user) => user.id === id);
-  }
-
-  public async changeUserPassword(id: string, updatedUserData: UpdateUserDto) {
-    const updatedUser = this.database.users.find((user) => user.id === id);
-    if (updatedUser && updatedUser.password === updatedUserData.oldPassword) {
-      this.database.users = this.database.users.map((user: IUser) =>
-        user.id === id
-          ? {
-              ...user,
-              password: updatedUserData.newPassword,
-              version: (user.version += 1),
-              updatedAt: (user.updatedAt = Date.now()),
-            }
-          : user,
-      );
-      return updatedUser;
-    }
-    return !updatedUser ? undefined : '';
-  }
-
-  public async deleteUserById(id: string) {
-    const deletedUser = this.database.users.find((user) => user.id === id);
-    if (deletedUser) {
-      this.database.users = this.database.users.filter(
-        (user) => user.id !== id,
-      );
-    }
-    return deletedUser;
-  }
-
+   
   public async setArtist(artist: IArtist) {
     this.database.artists.push(artist);
     return artist;

@@ -2,7 +2,7 @@ import { Column, Entity, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class User implements IUser {
-  @PrimaryGeneratedColumn({ name: 'user_id' })
+  @PrimaryGeneratedColumn('uuid', { name: 'user_id' })
   id: string;
   @Column()
   login: string;
@@ -10,9 +10,9 @@ export class User implements IUser {
   password: string;
   @Column()
   version: number;
-  @Column()
+  @Column('bigint')
   createdAt: number;
-  @Column()
+  @Column('bigint')
   updatedAt: number;
 }
 
