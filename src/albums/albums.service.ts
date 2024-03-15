@@ -2,12 +2,16 @@ import { randomUUID } from 'crypto';
 import { Injectable } from '@nestjs/common';
 import { CreateAlbumDto } from './dto/create-album.dto';
 import { UpdateAlbumDto } from './dto/update-album.dto';
-import { DataBaseService } from 'src/database/database.service';
-import { IAlbum } from './entities/album.entity';
+import { Album, IAlbum } from './entities/album.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class AlbumsService {
-  constructor(private databaseService: DataBaseService) {}
+  constructor(
+    @InjectRepository(Album)
+    private readonly albumRepository: Repository<Album>
+  ) {}
 
   public async create(createAlbumDto: CreateAlbumDto) {
     const album: IAlbum = {
@@ -15,22 +19,28 @@ export class AlbumsService {
       artistId: null,
       ...createAlbumDto,
     };
-    return await this.databaseService.setAlbum(album);
+    return await this.albumRepository.save(album);
   }
 
   public async getAll() {
-    return await this.databaseService.getAlbums();
+    return await this.albumRepository.find();
   }
 
   public async findOne(id: string) {
-    return await this.databaseService.getAlbumById(id);
+    return await this.albumRepository.findOne({ where: { id }});
   }
 
   public async update(id: string, updateAlbumDto: UpdateAlbumDto) {
-    return await this.databaseService.changeAlbumById(id, updateAlbumDto);
+    const updatedAlbum = await this.albumRepository.findOne({ where: { id } });    
+    if (updatedAlbum) {
+      const updatedAlbumResponse: IAlbum = { ...updatedAlbum, ...updateAlbumDto };
+      await this.albumRepository.save(updatedAlbumResponse);
+      return updatedAlbumResponse;
+    };
+    return undefined;
   }
 
   public async remove(id: string) {
-    return await this.databaseService.deleteAlbumById(id);
+    return await this.albumRepository.findOne({ where: { id } }) ? await this.albumRepository.delete(id) : undefined;
   }
 }
