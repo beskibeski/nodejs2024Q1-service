@@ -1,4 +1,4 @@
-import { Artist } from 'src/artists/entities/artist.entity';
+import { Artist, IArtist } from 'src/artists/entities/artist.entity';
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
@@ -12,8 +12,8 @@ export class Album implements IAlbum {
   @ManyToOne(() => Artist, (artist) => artist.id, {
     onDelete: 'SET NULL',
   })
-  @JoinColumn({ name: 'artist_id'})
-  artist: Artist | null;
+  @JoinColumn({ name: 'artistId' })
+  artist: IArtist | null;
   @Column({ nullable: true })
   artistId: string | null;
   }
