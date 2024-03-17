@@ -1,7 +1,7 @@
 import { Album, IAlbum } from 'src/albums/entities/album.entity';
 import { Artist, IArtist } from 'src/artists/entities/artist.entity';
 import { ITrack, Track } from 'src/tracks/entities/track.entity';
-import { Entity, JoinColumn, OneToOne, PrimaryColumn, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, JoinColumn, OneToOne, PrimaryColumn } from 'typeorm';
 
 @Entity()
 export class FavoriteAlbum {
@@ -9,7 +9,7 @@ export class FavoriteAlbum {
   id: string;
   @OneToOne(() => Album, (album) => album.id, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'id' })
-  track: IAlbum
+  track: IAlbum;
 }
 
 @Entity()
@@ -18,16 +18,16 @@ export class FavoriteArtist {
   id: string;
   @OneToOne(() => Artist, (artist) => artist.id, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'id' })
-  track: IArtist
+  track: IArtist;
 }
 
 @Entity()
-export class FavoriteTrack {  
+export class FavoriteTrack {
   @PrimaryColumn('uuid')
   id: string;
   @OneToOne(() => Track, (track) => track.id, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'id' })
-  track: ITrack 
+  track: ITrack;
 }
 
 export class FavoritesResponse implements IFavorite {

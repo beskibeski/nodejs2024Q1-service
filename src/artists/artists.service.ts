@@ -48,9 +48,11 @@ export class ArtistsService {
   }
 
   public async remove(id: string) {
-    const deletedArtist = await this.artistRepository.findOne({ where: { id } });
+    const deletedArtist = await this.artistRepository.findOne({
+      where: { id },
+    });
     if (deletedArtist) {
-      await this.artistRepository.delete(id);     
+      await this.artistRepository.delete(id);
     }
     return deletedArtist;
   }

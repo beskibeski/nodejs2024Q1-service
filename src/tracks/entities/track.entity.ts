@@ -1,12 +1,10 @@
 import { Album, IAlbum } from 'src/albums/entities/album.entity';
 import { Artist, IArtist } from 'src/artists/entities/artist.entity';
-import { FavoriteTrack } from 'src/favorites/entities/favorite.entity';
 import {
   Column,
   Entity,
   JoinColumn,
   ManyToOne,
-  OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -31,7 +29,7 @@ export class Track implements ITrack {
   @Column({ nullable: true })
   albumId: string | null;
   @Column()
-  duration: number;  
+  duration: number;
 }
 
 export interface ITrack {

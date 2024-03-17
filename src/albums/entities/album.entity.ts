@@ -1,5 +1,4 @@
 import { Artist, IArtist } from 'src/artists/entities/artist.entity';
-import { FavoriteAlbum } from 'src/favorites/entities/favorite.entity';
 import { ITrack, Track } from 'src/tracks/entities/track.entity';
 import {
   Column,
@@ -7,7 +6,6 @@ import {
   JoinColumn,
   ManyToOne,
   OneToMany,
-  OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -28,7 +26,7 @@ export class Album implements IAlbum {
   artistId: string | null;
   @OneToMany(() => Track, (track) => track.albumId)
   @JoinColumn({ name: 'id' })
-  tracks: ITrack[]
+  tracks: ITrack[];
 }
 
 export interface IAlbum {

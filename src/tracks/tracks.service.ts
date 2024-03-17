@@ -50,7 +50,7 @@ export class TracksService {
   public async remove(id: string) {
     const deletedTrack = await this.trackRepository.findOne({ where: { id } });
     if (deletedTrack) {
-      await this.trackRepository.delete(id);      
+      await this.trackRepository.delete(id);
     }
     return deletedTrack;
   }

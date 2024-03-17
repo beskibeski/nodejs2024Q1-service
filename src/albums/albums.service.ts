@@ -49,7 +49,7 @@ export class AlbumsService {
   public async remove(id: string) {
     const deletedAlbum = await this.albumRepository.findOne({ where: { id } });
     if (deletedAlbum) {
-      await this.albumRepository.delete(id);      
+      await this.albumRepository.delete(id);
     }
     return deletedAlbum;
   }
