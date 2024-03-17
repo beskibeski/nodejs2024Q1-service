@@ -5,12 +5,15 @@ import { UpdateAlbumDto } from './dto/update-album.dto';
 import { Album, IAlbum } from './entities/album.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { FavoriteAlbum } from 'src/favorites/entities/favorite.entity';
 
 @Injectable()
 export class AlbumsService {
   constructor(
     @InjectRepository(Album)
-    private readonly albumRepository: Repository<Album>
+    private readonly albumRepository: Repository<Album>,
+    @InjectRepository(FavoriteAlbum)
+    private readonly favoriteAlbumRepository: Repository<FavoriteAlbum>,
   ) {}
 
   public async create(createAlbumDto: CreateAlbumDto) {
@@ -27,20 +30,27 @@ export class AlbumsService {
   }
 
   public async findOne(id: string) {
-    return await this.albumRepository.findOne({ where: { id }});
+    return await this.albumRepository.findOne({ where: { id } });
   }
 
   public async update(id: string, updateAlbumDto: UpdateAlbumDto) {
-    const updatedAlbum = await this.albumRepository.findOne({ where: { id } });    
+    const updatedAlbum = await this.albumRepository.findOne({ where: { id } });
     if (updatedAlbum) {
-      const updatedAlbumResponse: IAlbum = { ...updatedAlbum, ...updateAlbumDto };
+      const updatedAlbumResponse: IAlbum = {
+        ...updatedAlbum,
+        ...updateAlbumDto,
+      };
       await this.albumRepository.save(updatedAlbumResponse);
       return updatedAlbumResponse;
-    };
+    }
     return undefined;
   }
 
   public async remove(id: string) {
-    return await this.albumRepository.findOne({ where: { id } }) ? await this.albumRepository.delete(id) : undefined;
+    const deletedAlbum = await this.albumRepository.findOne({ where: { id } });
+    if (deletedAlbum) {
+      await this.albumRepository.delete(id);      
+    }
+    return deletedAlbum;
   }
 }

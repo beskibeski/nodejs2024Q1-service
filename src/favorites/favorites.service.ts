@@ -1,23 +1,49 @@
 import { Injectable } from '@nestjs/common';
-import { DataBaseService } from 'src/database/database.service';
-import { FavoritesResponse } from './entities/favorite.entity';
+import {
+  FavoriteAlbum,
+  FavoriteArtist,
+  FavoriteTrack,
+  FavoritesResponse,
+} from './entities/favorite.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Track } from 'src/tracks/entities/track.entity';
+import { Album } from 'src/albums/entities/album.entity';
+import { Artist } from 'src/artists/entities/artist.entity';
 
 @Injectable()
 export class FavoritesService {
-  constructor(private databaseService: DataBaseService) {}
+  constructor(
+    @InjectRepository(FavoriteAlbum)
+    private readonly favoriteAlbumRepository: Repository<FavoriteAlbum>,
+    @InjectRepository(Album)
+    private readonly albumRepository: Repository<Album>,
+    @InjectRepository(Artist)
+    private readonly artistRepository: Repository<Artist>,
+    @InjectRepository(Track)
+    private readonly trackRepository: Repository<Track>,
+    @InjectRepository(FavoriteArtist)
+    private readonly favoriteArtistRepository: Repository<FavoriteArtist>,
+    @InjectRepository(FavoriteTrack)
+    private readonly favoriteTrackRepository: Repository<FavoriteTrack>,
+  ) {}
 
   public async findAll() {
-    const { albums, artists, tracks } =
-      await this.databaseService.getFavorites();
-    const favoriteAlbums = albums.map((albumId) =>
-      this.databaseService.getAlbumById(albumId),
-    );
-    const favoriteArtists = artists.map((artistId) =>
-      this.databaseService.getArtistById(artistId),
-    );
-    const favoriteTracks = tracks.map((trackId) =>
-      this.databaseService.getTrackById(trackId),
-    );
+    const albums = await this.favoriteAlbumRepository.find();
+    const favoriteAlbums = albums.map(async (album) => {
+      const id = album.id;
+      return await this.albumRepository.findOne({ where: { id } });
+    });
+    const artists = await this.favoriteArtistRepository.find();
+    const favoriteArtists = artists.map(async (artist) => {
+      const id = artist.id;
+      return await this.artistRepository.findOne({ where: { id } });
+    });
+    const tracks = await this.favoriteTrackRepository.find();
+    const favoriteTracks = tracks.map(async (track) => {
+      const id = track.id;
+      return await this.trackRepository.findOne({ where: { id } });
+    });
     const favoriteResponse: FavoritesResponse = {
       albums: await Promise.all(favoriteAlbums),
       artists: await Promise.all(favoriteArtists),
@@ -27,26 +53,56 @@ export class FavoritesService {
   }
 
   public async addAlbumToFavoritesById(id: string) {
-    return await this.databaseService.addAlbumToFavorites(id);
+    const addedAlbum = await this.albumRepository.findOne({ where: { id } });
+    if (addedAlbum) {
+      await this.favoriteAlbumRepository.save({ id });
+    }
+    return addedAlbum;
   }
 
   public async deleteAlbumFromFavoritesById(id: string) {
-    return await this.databaseService.deleteAlbumFromFavorites(id);
+    const deletedAlbum = await this.favoriteAlbumRepository.findOne({
+      where: { id },
+    });
+    if (deletedAlbum) {
+      await this.favoriteAlbumRepository.delete(id);
+    }
+    return deletedAlbum;
   }
 
   public async addArtistToFavoritesById(id: string) {
-    return await this.databaseService.addArtistToFavorites(id);
+    const addedArtist = await this.artistRepository.findOne({ where: { id } });
+    if (addedArtist) {
+      await this.favoriteArtistRepository.save({ id });
+    }
+    return addedArtist;
   }
 
   public async deleteArtistFromFavoritesById(id: string) {
-    return await this.databaseService.deleteArtistFromFavorites(id);
+    const deletedArtist = await this.favoriteArtistRepository.findOne({
+      where: { id },
+    });
+    if (deletedArtist) {
+      await this.favoriteArtistRepository.delete(id);
+    }
+    return deletedArtist;
   }
 
   public async addTrackToFavoritesById(id: string) {
-    return await this.databaseService.addTrackToFavorites(id);
+    const addedTrack = await this.trackRepository.findOne({ where: { id } });
+    if (addedTrack) {
+      await this.favoriteTrackRepository.save({ id });
+    }
+    return addedTrack;
   }
 
   public async deleteTrackFromFavoritesById(id: string) {
-    return await this.databaseService.deleteTrackFromFavorites(id);
+    const deletedTrack = await this.favoriteTrackRepository.findOne({
+      where: { id },
+    });
+    if (deletedTrack) {
+      await this.favoriteTrackRepository.delete(id);
+    }
+    return deletedTrack;
   }
 }

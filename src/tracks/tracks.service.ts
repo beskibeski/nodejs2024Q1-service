@@ -5,13 +5,16 @@ import { UpdateTrackDto } from './dto/update-track.dto';
 import { ITrack, Track } from './entities/track.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
+import { FavoriteTrack } from 'src/favorites/entities/favorite.entity';
 
 @Injectable()
 export class TracksService {
   constructor(
     @InjectRepository(Track)
-    private readonly trackRepository: Repository<Track>
-    ) {}
+    private readonly trackRepository: Repository<Track>,
+    @InjectRepository(FavoriteTrack)
+    private readonly favoriteTrackRepository: Repository<FavoriteTrack>,
+  ) {}
 
   public async create(createTrackDto: CreateTrackDto) {
     const track: ITrack = {
@@ -32,16 +35,23 @@ export class TracksService {
   }
 
   public async update(id: string, updateTrackDto: UpdateTrackDto) {
-    const updatedTrack = await this.trackRepository.findOne({ where: { id } });    
+    const updatedTrack = await this.trackRepository.findOne({ where: { id } });
     if (updatedTrack) {
-      const updatedTrackResponse: ITrack = { ...updatedTrack, ...updateTrackDto };
+      const updatedTrackResponse: ITrack = {
+        ...updatedTrack,
+        ...updateTrackDto,
+      };
       await this.trackRepository.save(updatedTrackResponse);
-      return  updatedTrackResponse;
-    };
+      return updatedTrackResponse;
+    }
     return undefined;
   }
 
   public async remove(id: string) {
-    return await this.trackRepository.findOne({ where: { id } }) ? await this.trackRepository.delete(id) : undefined;
+    const deletedTrack = await this.trackRepository.findOne({ where: { id } });
+    if (deletedTrack) {
+      await this.trackRepository.delete(id);      
+    }
+    return deletedTrack;
   }
 }

@@ -1,9 +1,19 @@
 import { Artist, IArtist } from 'src/artists/entities/artist.entity';
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { FavoriteAlbum } from 'src/favorites/entities/favorite.entity';
+import { ITrack, Track } from 'src/tracks/entities/track.entity';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToMany,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity()
 export class Album implements IAlbum {
-  @PrimaryGeneratedColumn('uuid', { name: 'album_id'})
+  @PrimaryGeneratedColumn('uuid')
   id: string;
   @Column()
   name: string;
@@ -16,7 +26,10 @@ export class Album implements IAlbum {
   artist: IArtist | null;
   @Column({ nullable: true })
   artistId: string | null;
-  }
+  @OneToMany(() => Track, (track) => track.albumId)
+  @JoinColumn({ name: 'id' })
+  tracks: ITrack[]
+}
 
 export interface IAlbum {
   id: string; // uuid v4

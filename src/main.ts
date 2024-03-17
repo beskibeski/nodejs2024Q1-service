@@ -4,7 +4,7 @@ import { SwaggerModule } from '@nestjs/swagger';
 import { readFile } from 'fs/promises';
 import { parse } from 'yaml';
 import { config } from 'dotenv';
-import "reflect-metadata";
+import 'reflect-metadata';
 config();
 
 async function bootstrap() {
