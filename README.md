@@ -53,8 +53,18 @@ npm run test
 
 ## To check lint errors
 
+Enter:
+
 ```
 npm run lint
+```
+
+## To check user-defined bridge
+
+Enter:
+
+```
+docker network ls
 ```
 
 ## Checking docker repos
