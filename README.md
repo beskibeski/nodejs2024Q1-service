@@ -9,7 +9,7 @@ If you have not already installed Git or (and) Node install them:
 ## Downloading
 
 ```
-git clone https://github.com/beskibeski/nodejs2024Q1-service.git -b develop
+git clone https://github.com/beskibeski/nodejs2024Q1-service.git -b containerization-database-orm
 ```
 
 ## Installing NPM modules
@@ -29,8 +29,16 @@ npm install --force
 ## Running application
 
 ```
-npm start
+npm run dock
 ```
+
+or
+
+```
+docker compose up
+```
+
+Wait while application started
 
 After starting the app on port (4000 as default) you can open
 in your browser OpenAPI documentation by typing http://localhost:4000/doc/.
@@ -48,6 +56,12 @@ npm run test
 ```
 npm run lint
 ```
+
+## Checking docker repos
+
+Database image link: https://hub.docker.com/r/beskibeski/nodejs2024q1-service-db
+
+Home library application image link: https://hub.docker.com/r/beskibeski/home-library
 
 ## Application details:
 
