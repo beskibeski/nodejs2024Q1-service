@@ -1,6 +1,8 @@
 # compiled output
 /dist
 /node_modules
+*/home-library-database-data
+*/home-library-database-logs
 
 # Logs
 logs
