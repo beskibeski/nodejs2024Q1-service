@@ -1,2 +1,8 @@
 /dist
 /node_modules
+
+.git
+.idea
+
+Dockerfile
+./postgres/Dockerfile
