@@ -7,6 +7,8 @@
   "license": "UNLICENSED",
   "scripts": {
     "dock": "docker compose up",
+    "dock:test": "docker exec -it home-library npm run test",
+    "dock:scan": "docker scout cves home-library && docker scout cves nodejs2024q1-service-db",
     "prebuild": "rimraf dist",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
