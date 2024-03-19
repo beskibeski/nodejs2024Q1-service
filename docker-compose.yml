@@ -16,12 +16,13 @@ services:
       - ./postgres/home-library-database-logs:/var/log/postgresql
     networks:
       - user-defined
-    restart: unless-stopped
+    restart: always
       
   home-library:
     container_name: home-library
     image: home-library
-    build: .      
+    build: .
+    command: ["npm", "run", "start:dev"]
     ports:
       - ${PORT}:${PORT}
     environment:
@@ -33,11 +34,10 @@ services:
     depends_on:
       - home-library-database
     volumes:
-      - .:/app
-    command: npm run start
+      - .:/app    
     networks:
       - user-defined
-    restart: unless-stopped
+    restart: always
 
 volumes:
   home-library-database-data:
