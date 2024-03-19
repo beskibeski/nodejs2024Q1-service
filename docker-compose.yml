@@ -15,7 +15,8 @@ services:
       - ./postgres/home-library-database-data:/var/lib/postgresql/data
       - ./postgres/home-library-database-logs:/var/log/postgresql
     networks:
-      - user-defined   
+      - user-defined
+    restart: unless-stopped
       
   home-library:
     container_name: home-library
@@ -36,6 +37,7 @@ services:
     command: npm run start
     networks:
       - user-defined
+    restart: unless-stopped
 
 volumes:
   home-library-database-data:
