@@ -54,7 +54,7 @@ npm run test
 To check tests in docker container enter:
 
 ```
-docker exec -it home-library npm run test
+npm run dock:test
 ```
 
 ## To check lint errors
