@@ -2,9 +2,12 @@
 
 ## Starting
 
-If you have not already installed Git or (and) Node install them:
+If you have not already installed Git, Node or (and) Docker install them:
 - Git - [Download & Install Git](https://git-scm.com/downloads).
 - Node.js - [Download & Install Node.js](https://nodejs.org/en/download/) and the npm package manager.
+- Docker Desktop- [Download & Install Docker Desktop](https://www.docker.com/products/docker-desktop/).
+
+If you have no account on Docker Hub go to https://hub.docker.com/ and create it. 
 
 ## Downloading
 
