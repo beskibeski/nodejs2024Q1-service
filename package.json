@@ -22,7 +22,10 @@
     "test:refresh": "cross-env TEST_MODE=auth jest --testPathPattern refresh.e2e.spec.ts --noStackTrace --runInBand",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
-    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand"
+    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
+    "typeorm": "typeorm-ts-node-commonjs",
+    "migrate:gen": "npm run typeorm migration:generate -- -d src/migrations/migration.config.ts src/migrations/database/migrations",
+    "migrate:run": "npm run typeorm migration:run -- -d src/migrations/migration.config.ts"
   },
   "dependencies": {
     "@nestjs/common": "^8.0.0",
@@ -71,7 +74,7 @@
     "supertest": "^6.2.3",
     "ts-jest": "^27.0.3",
     "ts-loader": "^9.2.3",
-    "ts-node": "^10.0.0",
+    "ts-node": "^10.9.2",
     "tsconfig-paths": "^3.10.1",
     "typescript": "^4.3.5"
   }
