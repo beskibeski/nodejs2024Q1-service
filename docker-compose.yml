@@ -3,7 +3,7 @@ version: '3.9'
 services:  
   home-library-database:
     container_name: home-library-database
-    image: nodejs2024q1-service-db
+    image: beskibeski/nodejs2024q1-service-db
     build: postgres
     ports:
       - ${DATABASE_PORT}:${DATABASE_PORT}
@@ -20,7 +20,7 @@ services:
       
   home-library:
     container_name: home-library
-    image: home-library
+    image: beskibeski/home-library
     build: .
     command: ["npm", "run", "start:dev"]
     ports:
