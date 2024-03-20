@@ -197,17 +197,17 @@ Home library application image link: https://hub.docker.com/r/beskibeski/home-li
       - Server should answer with `status code` **400** and corresponding message if `artistId` is invalid (not `uuid`)
       - Server should answer with `status code` **404** and corresponding message if corresponding artist is not favorite
 
-2. These endpoints operate only with **in-memory** (hardcoded) data, in the next it will use a DB for it.
+2. These endpoints use a Postgres database for it.
 
 3. An `application/json` format should be used for request and response body.
 
-4. `User`'s password should is excluded from server response.
+4. `User`'s password is excluded from server response.
 
 5. When `Artist`, `Album` or `Track`, it's `id` are  deleted from favorites (if was there) and references to it in other entities become `null`. 
 
 6. Non-existing entity can't be added to `Favorites`.
 
-7. Service listens on PORT `4000` by default, PORT value is stored in `.env` file.
+7. Service listens on PORT `4000` by default, PORT value and other variables are stored in `.env` file.
 
 8. Incoming requests are validated.
 
