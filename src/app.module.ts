@@ -8,6 +8,7 @@ import { AlbumsModule } from './albums/albums.module';
 import { FavoritesModule } from './favorites/favorites.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       }),
       inject: [ConfigService],
     }),
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
