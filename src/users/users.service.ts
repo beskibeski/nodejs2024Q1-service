@@ -3,10 +3,8 @@ import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import {
-  IUser,
-  IUserResponse,
+  IUser,  
   User,
-  UserResponse,
 } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -27,14 +25,8 @@ export class UsersService {
       updatedAt: Date.now(),
     };
     await this.userRepository.save(createdUser);
-    const createdUserWithoutPassword: IUserResponse = {
-      id: createdUser.id,
-      login: createdUser.login,
-      version: createdUser.version,
-      createdAt: createdUser.createdAt,
-      updatedAt: createdUser.updatedAt,
-    };
-    return createdUserWithoutPassword;
+    const { password, ...userRespsonse} = createdUser;
+    return userRespsonse;
   }
 
   public async findAll() {
@@ -43,6 +35,10 @@ export class UsersService {
 
   public async findOne(id: string) {
     return await this.userRepository.findOne({ where: { id } });
+  }
+
+  public async findLogin(login: string) {
+    return await this.userRepository.findOne({ where: { login } });
   }
 
   public async update(id: string, updateUserDto: UpdateUserDto) {
@@ -55,13 +51,7 @@ export class UsersService {
         updatedAt: (oldUser.updatedAt = Date.now()),
       };
       await this.userRepository.save(updatedUser);
-      const updatedUserResponse: UserResponse = {
-        id: updatedUser.id,
-        login: updatedUser.login,
-        version: updatedUser.version,
-        createdAt: +updatedUser.createdAt,
-        updatedAt: +updatedUser.updatedAt,
-      };
+      const { password, ...updatedUserResponse} = updatedUser;
       return updatedUserResponse;
     }
     return oldUser ? '' : undefined;

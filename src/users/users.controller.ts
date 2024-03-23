@@ -16,7 +16,6 @@ import {
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { UserResponse } from './entities/user.entity';
 
 @Controller('user')
 export class UsersController {
@@ -33,13 +32,7 @@ export class UsersController {
   public async findAll() {
     const foundUsers = await this.usersService.findAll();
     return foundUsers.map((foundUser) => {
-      const updatedUserResponse: UserResponse = {
-        id: foundUser.id,
-        login: foundUser.login,
-        version: foundUser.version,
-        createdAt: +foundUser.createdAt,
-        updatedAt: +foundUser.updatedAt,
-      }
+      const { password, ...updatedUserResponse } = foundUser;
       return updatedUserResponse;
     });    
   }
@@ -48,13 +41,7 @@ export class UsersController {
   public async findOne(@Param('id', new ParseUUIDPipe()) id: string) {
     const foundUser = await this.usersService.findOne(id);
     if (foundUser) {
-      const updatedUserResponse: UserResponse = {
-        id: foundUser.id,
-        login: foundUser.login,
-        version: foundUser.version,
-        createdAt: +foundUser.createdAt,
-        updatedAt: +foundUser.updatedAt,
-      }
+      const { password, ...updatedUserResponse } = foundUser;
       return updatedUserResponse;
     }
     throw new NotFoundException(`There is no user with id: ${id}`);

@@ -34,7 +34,8 @@ services:
     depends_on:
       - home-library-database
     volumes:
-      - .:/app    
+      - .:/app
+      - '/app/node_modules'
     networks:
       - user-defined
     restart: always
