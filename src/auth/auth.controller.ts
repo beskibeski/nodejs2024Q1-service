@@ -2,16 +2,19 @@ import { Body, Controller, HttpCode, HttpException, Post, ValidationPipe } from 
 import { AuthService } from './auth.service';
 import { AuthDto } from './dto/auth.dto';
 import { RefreshTokenDto } from './dto/refresh.dto';
+import { Public } from './auth.public';
 
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
 
+  @Public()
   @Post('signup')
   public async signUp(@Body(new ValidationPipe()) authDto: AuthDto) {
     return await this.authService.signUp(authDto);
   }
 
+  @Public()
   @Post('login')
   @HttpCode(200)
   public async logIn(@Body(new ValidationPipe()) authDto: AuthDto) {
@@ -23,9 +26,8 @@ export class AuthController {
   public async refresh(@Body() refreshTokenDto: RefreshTokenDto) {
     if(!refreshTokenDto.refreshToken.length) {
       throw new HttpException('dto is invalid (no refreshToken in body)', 401);
-    } else {
-      return this.authService.refresh(refreshTokenDto)
     }
+    return this.authService.refresh(refreshTokenDto);    
   }  
 
 }

@@ -6,11 +6,7 @@ import { hash, compare } from 'bcrypt';
 import { ConfigService } from '@nestjs/config';
 import { RefreshTokenDto } from './dto/refresh.dto';
 import { IUser } from 'src/users/entities/user.entity';
-
-interface IPayload {
-  userId: string,
-  login: string,
-}
+import { IPayload } from './payload';
 
 @Injectable()
 export class AuthService {
@@ -34,7 +30,7 @@ export class AuthService {
   }
 
   public async refresh(refreshTokenDto: RefreshTokenDto) {
-    await this.jwtService.verifyAsync(refreshTokenDto.refreshToken, {
+    return await this.jwtService.verifyAsync(refreshTokenDto.refreshToken, {
       secret: this.configService.get('JWT_SECRET_REFRESH_KEY')
     })
       .then(async (payload: IPayload) =>  {
@@ -44,7 +40,7 @@ export class AuthService {
         };
         throw new ForbiddenException();
     })
-      .catch(() => { throw new ForbiddenException() });    
+      .catch(() => { throw new ForbiddenException() });   
   }
 
   private async hashPassword(password: string) {
