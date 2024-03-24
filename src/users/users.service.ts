@@ -48,10 +48,11 @@ export class UsersService {
         ...oldUser,
         password: updateUserDto.newPassword,
         version: (oldUser.version += 1),
-        updatedAt: (oldUser.updatedAt = Date.now()),
+        updatedAt: (oldUser.updatedAt = Date.now()),        
       };
       await this.userRepository.save(updatedUser);
       const { password, ...updatedUserResponse} = updatedUser;
+      updatedUserResponse.createdAt = +updatedUserResponse.createdAt;
       return updatedUserResponse;
     }
     return oldUser ? '' : undefined;
