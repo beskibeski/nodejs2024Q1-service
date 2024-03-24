@@ -15,7 +15,7 @@ export class AuthService {
 
   public async logIn(authDto: AuthDto) {
     const user = await this.userService.findLogin(authDto.login);
-    if (user && await compare(user.password, authDto.password)) {
+      if (user && await compare (authDto.password, user.password)) {
       const payload = { userId: user.id, login: user.login };
       return {
         accessToken: await this.jwtService.signAsync(payload),
@@ -29,12 +29,12 @@ export class AuthService {
   }
 
   public async signUp(authDto: AuthDto) {
-    const hashedAuthDto = { ...authDto, password: await this.hashPassword(authDto.password) };
+    const hashedAuthDto = { login: authDto.login, password: await this.hashPassword(authDto.password) };
     return await this.userService.create(hashedAuthDto);
   }
 
   private async hashPassword(password: string) {
     return await hash(password, +this.configService.get('CRYPT_SALT'));
-  } 
+  }
 
 }
