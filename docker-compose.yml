@@ -1,0 +1,50 @@
+version: '3.9'
+
+services:  
+  home-library-database:
+    container_name: home-library-database
+    image: beskibeski/nodejs2024q1-service-db
+    build: postgres
+    ports:
+      - ${DATABASE_PORT}:${DATABASE_PORT}
+    environment:
+      POSTGRES_DB: ${DATABASE_NAME}
+      POSTGRES_USER: ${DATABASE_USERNAME}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+    volumes:
+      - ./postgres/home-library-database-data:/var/lib/postgresql/data
+      - ./postgres/home-library-database-logs:/var/log/postgresql
+    networks:
+      - user-defined
+    restart: always
+      
+  home-library:
+    container_name: home-library
+    image: beskibeski/home-library
+    build: .
+    command: ["npm", "run", "start:dev"]
+    ports:
+      - ${PORT}:${PORT}
+    environment:
+      POSTGRES_DB: ${DATABASE_NAME}
+      POSTGRES_USER: ${DATABASE_USERNAME}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+      POSTGRES_HOST: ${DATABASE_HOST}
+      POSTGRES_PORT: ${DATABASE_PORT}
+    depends_on:
+      - home-library-database
+    volumes:
+      - .:/app    
+    networks:
+      - user-defined
+    restart: always
+
+volumes:
+  home-library-database-data:
+  home-library-database-logs:
+
+networks:
+  user-defined:
+    name: user-defined
+    driver: bridge
+     

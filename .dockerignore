@@ -1,0 +1,9 @@
+/dist
+/node_modules
+
+.git
+.idea
+
+!Dockerfile
+*/home-library-database-data
+*/home-library-database-logs

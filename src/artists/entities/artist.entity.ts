@@ -1,7 +1,27 @@
+import { Album, IAlbum } from 'src/albums/entities/album.entity';
+import { ITrack, Track } from 'src/tracks/entities/track.entity';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+
+@Entity()
 export class Artist implements IArtist {
+  @PrimaryGeneratedColumn('uuid')
   id: string;
+  @Column()
   name: string;
+  @Column()
   grammy: boolean;
+  @OneToMany(() => Track, (track) => track.artistId)
+  @JoinColumn({ name: 'id' })
+  tracks: ITrack[];
+  @OneToMany(() => Album, (album) => album.artistId)
+  @JoinColumn({ name: 'id' })
+  albums: IAlbum[];
 }
 
 export interface IArtist {

@@ -1,9 +1,18 @@
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+
+@Entity()
 export class User implements IUser {
+  @PrimaryGeneratedColumn('uuid', { name: 'user_id' })
   id: string;
+  @Column()
   login: string;
+  @Column()
   password: string;
+  @Column()
   version: number;
+  @Column('bigint')
   createdAt: number;
+  @Column('bigint')
   updatedAt: number;
 }
 

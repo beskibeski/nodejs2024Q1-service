@@ -2,14 +2,17 @@
 
 ## Starting
 
-If you have not already installed Git or (and) Node install them:
+If you have not already installed Git, Node or (and) Docker install them:
 - Git - [Download & Install Git](https://git-scm.com/downloads).
 - Node.js - [Download & Install Node.js](https://nodejs.org/en/download/) and the npm package manager.
+- Docker Desktop- [Download & Install Docker Desktop](https://www.docker.com/products/docker-desktop/).
+
+If you have no account on Docker Hub go to https://hub.docker.com/ and create it. 
 
 ## Downloading
 
 ```
-git clone https://github.com/beskibeski/nodejs2024Q1-service.git -b develop
+git clone https://github.com/beskibeski/nodejs2024Q1-service.git -b containerization-database-orm
 ```
 
 ## Installing NPM modules
@@ -29,8 +32,16 @@ npm install --force
 ## Running application
 
 ```
-npm start
+npm run dock
 ```
+
+or
+
+```
+docker compose up
+```
+
+Wait while application started
 
 After starting the app on port (4000 as default) you can open
 in your browser OpenAPI documentation by typing http://localhost:4000/doc/.
@@ -43,11 +54,41 @@ After application running open new terminal and enter:
 npm run test
 ```
 
+To check tests in docker container enter:
+
+```
+npm run dock:test
+```
+
 ## To check lint errors
+
+Enter:
 
 ```
 npm run lint
 ```
+
+## To check user-defined bridge
+
+Enter:
+
+```
+docker network ls
+```
+
+## To scan for vulnerabilities
+
+Enter:
+
+```
+npm run dock:scan
+```
+
+## Checking docker repos
+
+Database image link: https://hub.docker.com/r/beskibeski/nodejs2024q1-service-db
+
+Home library application image link: https://hub.docker.com/r/beskibeski/home-library
 
 ## Application details:
 
@@ -156,17 +197,17 @@ npm run lint
       - Server should answer with `status code` **400** and corresponding message if `artistId` is invalid (not `uuid`)
       - Server should answer with `status code` **404** and corresponding message if corresponding artist is not favorite
 
-2. These endpoints operate only with **in-memory** (hardcoded) data, in the next it will use a DB for it.
+2. These endpoints use a Postgres database for it.
 
 3. An `application/json` format should be used for request and response body.
 
-4. `User`'s password should is excluded from server response.
+4. `User`'s password is excluded from server response.
 
 5. When `Artist`, `Album` or `Track`, it's `id` are  deleted from favorites (if was there) and references to it in other entities become `null`. 
 
 6. Non-existing entity can't be added to `Favorites`.
 
-7. Service listens on PORT `4000` by default, PORT value is stored in `.env` file.
+7. Service listens on PORT `4000` by default, PORT value and other variables are stored in `.env` file.
 
 8. Incoming requests are validated.
 

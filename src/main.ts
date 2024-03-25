@@ -3,6 +3,9 @@ import { AppModule } from './app.module';
 import { SwaggerModule } from '@nestjs/swagger';
 import { readFile } from 'fs/promises';
 import { parse } from 'yaml';
+import { config } from 'dotenv';
+import 'reflect-metadata';
+config();
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
