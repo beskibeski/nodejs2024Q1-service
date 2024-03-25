@@ -81,7 +81,7 @@ docker network ls
 Enter:
 
 ```
-dock:scan
+npm run dock:scan
 ```
 
 ## Checking docker repos
